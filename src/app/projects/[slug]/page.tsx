@@ -45,12 +45,12 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
 
   return (
     <article>
-      <div className="mb-10 border-b border-[color:var(--color-rule-storm)] pb-7">
-        <p className="mb-3 text-[length:var(--text-caption)] font-medium text-[color:var(--color-graphite)]">
+      <div className="mb-10 border-b border-(--color-rule-storm) pb-7">
+        <p className="mb-3 text-(length:--text-caption) font-medium text-(--color-graphite)">
           {project.team} · {project.period}
         </p>
-        <h1 className="max-w-3xl text-[length:var(--text-title)] font-semibold leading-tight tracking-normal text-[color:var(--color-ink)]">{project.title}</h1>
-        <p className="mt-4 max-w-2xl text-[length:var(--text-lede)] leading-8 text-[color:var(--color-muted-ink)]">{project.description}</p>
+        <h1 className="max-w-3xl text-(length:--text-title) font-semibold leading-tight tracking-normal text-(--color-ink)">{project.title}</h1>
+        <p className="mt-4 max-w-2xl text-(length:--text-lede) leading-8 text-(--color-muted-ink)">{project.description}</p>
         <div className="mt-5 flex flex-wrap gap-x-2 gap-y-1.5">
           {project.stack.map((item) => (
             <Badge key={item}>{item}</Badge>

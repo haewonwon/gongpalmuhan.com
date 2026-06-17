@@ -20,10 +20,10 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body>
-        <div className="min-h-screen bg-[color:var(--color-paper)] text-[color:var(--color-ink)]">
+        <div className="min-h-screen bg-(--color-paper) text-(--color-ink)">
           <Header />
           <Sidebar />
-          <main className="mx-auto w-full max-w-[var(--content-max)] px-5 pb-20 pt-24 md:ml-[var(--sidebar-width)] md:px-10 md:pt-14 lg:px-12">
+          <main className="mx-auto w-full max-w-(--content-max) px-5 pb-20 pt-24 md:ml-(--sidebar-width) md:px-10 md:pt-14 lg:px-12">
             {children}
           </main>
         </div>

@@ -19,11 +19,11 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="border-l border-[color:var(--color-rule-rain)] pl-4">
+      <section className="border-l border-(--color-rule-rain) pl-4">
         <h2 className="mb-5 text-xl font-semibold">핵심 역량</h2>
         <div className="grid gap-x-8 gap-y-3 sm:grid-cols-2">
           {profile.strengths.map((strength) => (
-            <p className="border-t border-[color:var(--color-rule-storm)] pt-3 text-sm leading-7 text-[color:var(--color-muted-ink)]" key={strength}>
+            <p className="border-t border-(--color-rule-storm) pt-3 text-sm leading-7 text-(--color-muted-ink)" key={strength}>
               {strength}
             </p>
           ))}
@@ -34,7 +34,7 @@ export default function Home() {
         <div className="mb-2 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <h2 className="text-xl font-semibold">대표 프로젝트</h2>
-            <p className="mt-2 text-sm text-[color:var(--color-muted-ink)]">세부 내용은 초안이며, 실제 구현 기록으로 계속 보완할 예정입니다.</p>
+            <p className="mt-2 text-sm text-(--color-muted-ink)">세부 내용은 초안이며, 실제 구현 기록으로 계속 보완할 예정입니다.</p>
           </div>
           <LinkButton href="/projects">전체 보기</LinkButton>
         </div>
