@@ -1,5 +1,5 @@
-import { ArrowUpRight } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { ArrowUpRight } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 type LinkButtonProps = {
   href: string;
@@ -17,12 +17,17 @@ export function LinkButton({ href, children, external = false, className }: Link
   );
 
   const classes = cn(
-    "inline-flex h-9 items-center gap-1.5 border-b border-(--color-rule-storm-strong) text-sm font-medium text-(--color-ink) transition-colors duration-(--dur-fast) hover:border-(--color-graphite) hover:text-(--color-graphite)",
-    className,
+    'inline-flex h-9 items-center gap-1.5 text-sm font-medium text-(--color-ink) transition-colors duration-(--dur-fast) hover:border-(--color-graphite) hover:text-(--color-graphite)',
+    className
   );
 
   return (
-    <a className={classes} href={href} target={external ? "_blank" : undefined} rel={external ? "noreferrer" : undefined}>
+    <a
+      className={classes}
+      href={href}
+      target={external ? '_blank' : undefined}
+      rel={external ? 'noreferrer' : undefined}
+    >
       {content}
     </a>
   );

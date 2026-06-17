@@ -40,7 +40,7 @@ pnpm build
 - 색상/타입 토큰: `tokens.css`
 - Hallmark pre-flight 기록: `.hallmark/preflight.json`
 
-새 UI를 추가할 때는 `DESIGN.md`와 `tokens.css`를 먼저 확인하고, 컴포넌트에서 직접 hex color나 font-family를 선언하지 않습니다. 현재 팔레트는 Stormy morning 기반이며, 검정 텍스트를 유지하되 storm, mist, rain, graphite를 역할별로 섞어 사용합니다.
+새 UI를 추가할 때는 `DESIGN.md`와 `tokens.css`를 먼저 확인하고, 컴포넌트에서 직접 hex color나 font-family를 선언하지 않습니다. 현재 팔레트는 Electric notebook 기반이며, 검정 텍스트와 흰 문서 배경을 유지하되 night, blue, orange, cream을 역할별로 나누어 사용합니다.
 
 ## Project Structure
 

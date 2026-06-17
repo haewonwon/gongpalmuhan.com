@@ -1,5 +1,5 @@
-@import "tailwindcss";
 @import "../../tokens.css";
+@import "tailwindcss";
 
 :root {
   --background: var(--color-paper);
@@ -35,6 +35,15 @@ body::before {
   width: 4px;
   background: var(--color-storm);
   content: "";
+}
+
+.marker-underline {
+  background-image: linear-gradient(var(--color-orange-soft), var(--color-orange-soft));
+  background-position: 0 84%;
+  background-repeat: no-repeat;
+  background-size: 100% 0.38em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
 }
 
 a {

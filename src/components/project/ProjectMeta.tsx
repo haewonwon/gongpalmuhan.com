@@ -1,4 +1,4 @@
-import { CalendarDays, Github, UserRound, UsersRound } from "lucide-react";
+import { CalendarDays, Github, LinkIcon, UserRound, UsersRound } from "lucide-react";
 import type { Project } from "@/data/projects";
 
 type ProjectMetaProps = {
@@ -26,17 +26,40 @@ export function ProjectMeta({ project }: ProjectMetaProps) {
           </div>
         );
       })}
-      <div className="border-l border-(--color-rule-rain) pl-3 sm:col-span-3">
-        <dt className="flex items-center gap-1.5 text-xs font-medium text-(--color-muted-ink)">
-          <Github size={14} aria-hidden />
-          GitHub
-        </dt>
-        <dd className="mt-1 wrap-break-word text-sm">
-          <a className="text-(--color-ink) underline decoration-(--color-storm-soft) underline-offset-4 hover:text-(--color-graphite) hover:decoration-(--color-graphite)" href={project.github} target="_blank" rel="noreferrer">
-            {project.github}
-          </a>
-        </dd>
-      </div>
+      {project.github ? (
+        <div className="border-l border-(--color-rule-rain) pl-3 sm:col-span-3">
+          <dt className="flex items-center gap-1.5 text-xs font-medium text-(--color-muted-ink)">
+            <Github size={14} aria-hidden />
+            GitHub
+          </dt>
+          <dd className="mt-1 wrap-break-word text-sm">
+            <a className="text-(--color-ink) underline decoration-(--color-storm-soft) underline-offset-4 hover:text-(--color-graphite) hover:decoration-(--color-graphite)" href={project.github} target="_blank" rel="noreferrer">
+              {project.github}
+            </a>
+          </dd>
+        </div>
+      ) : null}
+      {project.links?.length ? (
+        <div className="border-l border-(--color-rule-rain) pl-3 sm:col-span-3">
+          <dt className="flex items-center gap-1.5 text-xs font-medium text-(--color-muted-ink)">
+            <LinkIcon size={14} aria-hidden />
+            Links
+          </dt>
+          <dd className="mt-1 flex flex-wrap gap-x-3 gap-y-1 text-sm">
+            {project.links.map((link) => (
+              <a
+                className="text-(--color-ink) underline decoration-(--color-storm-soft) underline-offset-4 hover:text-(--color-graphite) hover:decoration-(--color-graphite)"
+                href={link.href}
+                key={link.href}
+                rel="noreferrer"
+                target="_blank"
+              >
+                {link.label}
+              </a>
+            ))}
+          </dd>
+        </div>
+      ) : null}
     </dl>
   );
 }

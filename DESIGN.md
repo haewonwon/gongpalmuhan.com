@@ -13,10 +13,10 @@ This repo uses a document-first portfolio system for a junior frontend developer
 All production UI colors and font-family declarations should come from `tokens.css`.
 
 - `--color-ink`: black text. This is an explicit project preference from the owner.
-- `--color-storm`: `#6A89A7`, used for primary document rules and the left rail accent.
-- `--color-mist`: `#BDDDFF`, used only as a quiet wash, selection color, or hover background.
-- `--color-rain`: `#88BDF2`, used for light link underlines and soft separators.
-- `--color-graphite`: `#384959`, used for links, focus, and compact action controls.
+- `--color-night`: `#001BB7`, used for the left rail, focus ring, and occasional strong rules.
+- `--color-blue`: `#0046FF`, used for links and compact primary actions.
+- `--color-orange`: `#FF8040`, used for secondary emphasis, metadata rules, and small warm accents.
+- `--color-cream`: `#F5F1DC`, used only as a quiet wash, selection color, or hover background.
 - `--color-paper` and `--color-surface`: white reading backgrounds that keep the portfolio document-like.
 
 ## Typography
@@ -36,7 +36,7 @@ All production UI colors and font-family declarations should come from `tokens.c
 
 ## Signature
 
-The distinctive element is a restrained "stormy morning document" treatment: black text, blue-grey rule lines, graphite focus/link affordances, and pale blue wash surfaces used sparingly. The palette must be balanced across storm, mist, rain, and graphite so no single color dominates.
+The distinctive element is a restrained "electric notebook" treatment: black text, white document space, a narrow deep-blue rail, vivid-blue link affordances, orange micro-accents, and cream wash surfaces used sparingly. The palette must stay mostly white and black, with the four colors balanced by role so the saturated blues never dominate the page.
 
 ## Copy Rules
 

@@ -3,6 +3,24 @@
     "date": "2026-06-18",
     "scope": "portfolio-site",
     "macrostructure": "long-document index",
+    "theme": "custom electric notebook",
+    "enrichment": "none",
+    "brief": "Switch portfolio palette to the user's vivid blue, orange, and cream reference palette.",
+    "notes": "Updated DESIGN.md and tokens.css with night, blue, orange, cream roles while preserving black text, white document space, and restrained accent usage."
+  },
+  {
+    "date": "2026-06-18",
+    "scope": "portfolio-site",
+    "macrostructure": "long-document index",
+    "theme": "custom soft garden",
+    "enrichment": "none",
+    "brief": "Switch portfolio palette to the user's soft green reference palette.",
+    "notes": "Updated DESIGN.md and tokens.css with cream, leaf, mint, tide roles while preserving black text and document-first UI."
+  },
+  {
+    "date": "2026-06-18",
+    "scope": "portfolio-site",
+    "macrostructure": "long-document index",
     "theme": "custom stormy morning",
     "enrichment": "none",
     "brief": "Switch portfolio palette to the user's stormy morning blue-grey reference.",

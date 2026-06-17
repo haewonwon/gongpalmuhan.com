@@ -1,29 +1,35 @@
-import { Github, Mail } from "lucide-react";
+export type ProfileLinkIcon = 'github' | 'mail';
+
+export type ProfileLink = {
+  label: string;
+  href: string;
+  icon: ProfileLinkIcon;
+};
 
 export const profile = {
-  name: "김해원",
-  title: "Frontend Developer",
+  name: '김해원',
+  title: 'Frontend Developer',
   summary:
-    "제품의 흐름을 이해하고, 사용자에게 필요한 화면과 상태 관리를 차분하게 구현하는 신입 프론트엔드 개발자입니다.",
-  location: "Seoul, Korea",
-  email: "haewonwon@example.com",
-  github: "https://github.com/haewonwon",
+    '설계와 문서화를 바탕으로 개발 흐름을 정리하고, \n사용자의 경험이 조금 더 나아지는 방향을 고민하는 프론트엔드 개발자, 김해원입니다.',
+  location: 'Incheon, Korea',
+  email: 'haewonwon@example.com',
+  github: 'https://github.com/haewonwon',
   links: [
     {
-      label: "GitHub",
-      href: "https://github.com/haewonwon",
-      icon: Github,
+      label: 'GitHub',
+      href: 'https://github.com/haewonwon',
+      icon: 'github',
     },
     {
-      label: "Email",
-      href: "mailto:haewonwon@example.com",
-      icon: Mail,
+      label: 'Email',
+      href: 'mailto:khcw1029@daum.net',
+      icon: 'mail',
     },
-  ],
+  ] satisfies ProfileLink[],
   strengths: [
-    "React와 TypeScript 기반의 화면 구조 설계",
-    "TanStack Query, Zustand 등을 활용한 클라이언트 상태 관리",
-    "API 스펙과 실제 UI 흐름을 연결하는 개발 문서화",
-    "팀 프로젝트에서 역할과 범위를 명확히 나누는 협업",
+    'React와 TypeScript 기반의 읽고 확장하기 쉬운 UI 구조를 설계합니다.',
+    'TanStack Query와 Zustand로 서버 상태와 클라이언트 상태의 책임을 나눕니다.',
+    'API 스펙, 화면 흐름, 구현 기준을 문서화해 개발 방향을 정리합니다.',
+    '결정 사항과 컨벤션을 공유하며 팀이 같은 방향으로 협업하도록 돕습니다.',
   ],
 };

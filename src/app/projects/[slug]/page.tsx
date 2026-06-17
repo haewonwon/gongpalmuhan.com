@@ -57,9 +57,16 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
           ))}
         </div>
         <div className="mt-6 flex flex-wrap gap-3">
-          <LinkButton href={project.github} external>
-            GitHub
-          </LinkButton>
+          {project.github ? (
+            <LinkButton href={project.github} external>
+              GitHub
+            </LinkButton>
+          ) : null}
+          {project.links?.map((link) => (
+            <LinkButton href={link.href} external key={link.href}>
+              {link.label}
+            </LinkButton>
+          ))}
           <LinkButton href="/projects">목록으로</LinkButton>
         </div>
       </div>

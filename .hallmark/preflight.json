@@ -5,7 +5,7 @@
   "styling": "Tailwind CSS v4 with global CSS tokens",
   "fontStack": "Pretendard, Inter, system-ui, sans-serif",
   "motion": "motion-cut; no motion library installed",
-  "palette": "Stormy morning: #6A89A7, #BDDDFF, #88BDF2, #384959 with explicit black text",
+  "palette": "Electric notebook: #001BB7, #0046FF, #FF8040, #F5F1DC with explicit black text and white document background",
   "preserve": [
     "document-first portfolio structure",
     "fixed desktop side rail",
