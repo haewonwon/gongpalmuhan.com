@@ -39,7 +39,7 @@ export function Sidebar() {
           {profile.links.map((link) => (
             <a
               key={link.href}
-              className="mt-3 flex items-center gap-2 text-sm text-(--color-muted-ink) hover:text-(--color-graphite)"
+              className="mt-3 flex items-center gap-2 text-sm text-(--color-muted-ink) transition-colors duration-(--dur-fast) hover:text-(--color-graphite)"
               href={link.href}
             >
               {link.icon === 'github' ? (

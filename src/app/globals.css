@@ -96,6 +96,14 @@ a {
   padding-left: 22px;
 }
 
+.prose-content ul {
+  list-style: disc;
+}
+
+.prose-content ol {
+  list-style: decimal;
+}
+
 .prose-content li {
   margin: 8px 0;
 }
@@ -116,4 +124,19 @@ a {
   margin: 38px 0;
   border: 0;
   border-top: 1px solid var(--border);
+}
+
+.prose-content a {
+  color: var(--color-ink);
+  text-decoration: underline;
+  text-decoration-color: var(--color-storm-soft);
+  text-underline-offset: 4px;
+  transition:
+    color var(--dur-fast) var(--ease-standard),
+    text-decoration-color var(--dur-fast) var(--ease-standard);
+}
+
+.prose-content a:hover {
+  color: var(--color-graphite);
+  text-decoration-color: var(--color-graphite);
 }

@@ -33,7 +33,9 @@ export function ProjectMeta({ project }: ProjectMetaProps) {
             GitHub
           </dt>
           <dd className="mt-1 wrap-break-word text-sm">
-            <a className="text-(--color-ink) underline decoration-(--color-storm-soft) underline-offset-4 hover:text-(--color-graphite) hover:decoration-(--color-graphite)" href={project.github} target="_blank" rel="noreferrer">
+            <a
+              className="text-(--color-ink) underline decoration-(--color-storm-soft) underline-offset-4 transition-colors duration-(--dur-fast) hover:text-(--color-graphite) hover:decoration-(--color-graphite)"
+              href={project.github} target="_blank" rel="noreferrer">
               {project.github}
             </a>
           </dd>
@@ -48,7 +50,7 @@ export function ProjectMeta({ project }: ProjectMetaProps) {
           <dd className="mt-1 flex flex-wrap gap-x-3 gap-y-1 text-sm">
             {project.links.map((link) => (
               <a
-                className="text-(--color-ink) underline decoration-(--color-storm-soft) underline-offset-4 hover:text-(--color-graphite) hover:decoration-(--color-graphite)"
+                className="text-(--color-ink) underline decoration-(--color-storm-soft) underline-offset-4 transition-colors duration-(--dur-fast) hover:text-(--color-graphite) hover:decoration-(--color-graphite)"
                 href={link.href}
                 key={link.href}
                 rel="noreferrer"

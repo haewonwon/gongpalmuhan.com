@@ -23,7 +23,7 @@ export function ProjectCard({ project, trimFirstBorder = false }: ProjectCardPro
           </p>
           <h2 className="mt-1 text-xl font-semibold tracking-normal text-(--color-ink)">
             <a
-              className="underline decoration-(--color-rule-rain) underline-offset-4 transition-colors duration-(--dur-fast) group-hover:text-(--color-graphite)"
+              className="underline decoration-(--color-rule-rain) underline-offset-4 transition-colors duration-(--dur-fast) hover:text-(--color-graphite) hover:decoration-(--color-graphite) group-hover:text-(--color-graphite)"
               href={`/projects/${project.slug}`}
             >
               {project.title}

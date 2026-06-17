@@ -93,7 +93,7 @@ export default function AboutPage() {
       </AboutSection>
 
       <AboutSection title="Certificates">
-        <ul className="max-w-3xl border-y border-(--color-rule-graphite) text-sm leading-7 text-(--color-muted-ink)">
+        <ul className="max-w-3xl list-disc border-y border-(--color-rule-graphite) pl-5 text-sm leading-7 text-(--color-muted-ink)">
           {certificates.map((certificate) => (
             <li
               className="border-t border-(--color-rule-storm) py-3 first:border-t-0"
