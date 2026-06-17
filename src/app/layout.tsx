@@ -23,7 +23,7 @@ export default function RootLayout({
         <div className="min-h-screen bg-(--color-paper) text-(--color-ink)">
           <Header />
           <Sidebar />
-          <main className="mx-auto w-full max-w-(--content-max) px-5 pb-20 pt-24 md:ml-(--sidebar-width) md:px-10 md:pt-14 lg:px-12">
+          <main className="mx-auto w-full max-w-(--content-max) px-5 pb-20 pt-24 md:px-10 lg:px-12 xl:ml-(--sidebar-width) xl:mr-auto xl:pt-14">
             {children}
           </main>
         </div>

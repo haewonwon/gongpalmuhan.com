@@ -9,7 +9,7 @@ const navItems = [
 
 export function Sidebar() {
   return (
-    <aside className="fixed inset-y-0 left-0 hidden w-(--sidebar-width) border-r border-(--color-rule-storm) bg-(--color-surface) px-5 py-6 md:block">
+    <aside className="fixed inset-y-0 left-0 hidden w-(--sidebar-width) border-r border-(--color-rule-storm) bg-(--color-surface) px-5 py-6 xl:block">
       <div className="flex h-full flex-col">
         <a
           href="/"
