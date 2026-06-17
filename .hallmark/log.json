@@ -1,0 +1,27 @@
+[
+  {
+    "date": "2026-06-18",
+    "scope": "portfolio-site",
+    "macrostructure": "long-document index",
+    "theme": "custom stormy morning",
+    "enrichment": "none",
+    "brief": "Switch portfolio palette to the user's stormy morning blue-grey reference.",
+    "notes": "Updated DESIGN.md and tokens.css with storm, mist, rain, graphite roles while preserving document-first UI."
+  },
+  {
+    "date": "2026-06-18",
+    "scope": "portfolio-site",
+    "macrostructure": "long-document index",
+    "theme": "custom retro sunset",
+    "enrichment": "none",
+    "brief": "Remove client-side route chunk errors and redesign portfolio toward restrained document index UI.",
+    "notes": "Replaced Next client navigation surfaces with document anchors and reduced card/button styling."
+  },
+  {
+    "date": "2026-06-17",
+    "scope": "portfolio-site",
+    "macrostructure": "long-document with portfolio index",
+    "theme": "custom retro sunset",
+    "notes": "Applied Hallmark and Frontend Design as repo-level design rules, locked tokens, and restrained document UI."
+  }
+]

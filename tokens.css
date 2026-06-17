@@ -1,0 +1,53 @@
+/* Hallmark · genre: editorial · macrostructure: long-document index · theme: stormy morning · design-system: DESIGN.md · pre-emit critique: P4 H5 E4 S5 R5 V4 */
+:root {
+  --color-paper: #ffffff;
+  --color-surface: #ffffff;
+  --color-paper-mark: rgb(189 221 255 / 22%);
+  --color-ink: #000000;
+  --color-muted-ink: rgb(0 0 0 / 65%);
+  --color-faint-ink: rgb(0 0 0 / 55%);
+  --color-quiet-ink: rgb(0 0 0 / 38%);
+  --color-storm: #6a89a7;
+  --color-mist: #bdddff;
+  --color-rain: #88bdf2;
+  --color-graphite: #384959;
+  --color-rule-storm: rgb(106 137 167 / 24%);
+  --color-rule-storm-strong: rgb(106 137 167 / 46%);
+  --color-rule-rain: rgb(136 189 242 / 42%);
+  --color-rule-graphite: rgb(56 73 89 / 22%);
+  --color-storm-wash: rgb(189 221 255 / 28%);
+  --color-storm-hover: rgb(136 189 242 / 26%);
+  --color-storm-soft: rgb(136 189 242 / 38%);
+  --color-focus: #384959;
+  --color-rule-warm: var(--color-rule-storm);
+  --color-rule-warm-strong: var(--color-rule-storm-strong);
+  --color-rule-teal: var(--color-rule-rain);
+  --color-rule-rust: var(--color-rule-graphite);
+  --color-orange: var(--color-storm);
+  --color-sun: var(--color-mist);
+  --color-sun-wash: var(--color-storm-wash);
+  --color-sun-hover: var(--color-storm-hover);
+  --color-teal: var(--color-graphite);
+  --color-teal-soft: var(--color-storm-soft);
+  --color-rust: var(--color-graphite);
+
+  --font-display: Pretendard, Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-body: Pretendard, Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-utility: Inter, Pretendard, system-ui, sans-serif;
+
+  --radius-small: 6px;
+  --sidebar-width: 260px;
+  --content-max: 860px;
+  --space-2xs: 0.5rem;
+  --space-xs: 0.75rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2rem;
+  --space-xl: 3rem;
+  --text-caption: 0.8125rem;
+  --text-body: 1rem;
+  --text-lede: 1.125rem;
+  --text-title: 2.25rem;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --dur-fast: 120ms;
+}

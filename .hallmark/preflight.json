@@ -1,0 +1,15 @@
+{
+  "lastScan": "2026-06-17",
+  "framework": "Next.js App Router",
+  "packageManager": "pnpm",
+  "styling": "Tailwind CSS v4 with global CSS tokens",
+  "fontStack": "Pretendard, Inter, system-ui, sans-serif",
+  "motion": "motion-cut; no motion library installed",
+  "palette": "Stormy morning: #6A89A7, #BDDDFF, #88BDF2, #384959 with explicit black text",
+  "preserve": [
+    "document-first portfolio structure",
+    "fixed desktop side rail",
+    "mobile top navigation",
+    "MDX project case studies"
+  ]
+}
