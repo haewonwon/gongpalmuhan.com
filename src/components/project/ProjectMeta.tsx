@@ -31,7 +31,7 @@ export function ProjectMeta({ project }: ProjectMetaProps) {
           <Github size={14} aria-hidden />
           GitHub
         </dt>
-        <dd className="mt-1 break-words text-sm">
+        <dd className="mt-1 wrap-break-word text-sm">
           <a className="text-(--color-ink) underline decoration-(--color-storm-soft) underline-offset-4 hover:text-(--color-graphite) hover:decoration-(--color-graphite)" href={project.github} target="_blank" rel="noreferrer">
             {project.github}
           </a>
