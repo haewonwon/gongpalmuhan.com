@@ -42,8 +42,5 @@
     "eslint-config-next": "^15.5.7",
     "tailwindcss": "^4",
     "typescript": "^5"
-  },
-  "optionalDependencies": {
-    "@rollup/rollup-darwin-arm64": "4.60.0"
   }
 }
