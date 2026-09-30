@@ -1,0 +1,89 @@
+---
+title: 'BRIFO'
+description: 'AI 사원의 분석을 바탕으로 투자 결정을 학습하는 게이미피케이션 플랫폼'
+period: '2026.06 - 2026.08'
+team: '팀 프로젝트'
+role: 'Web Frontend'
+stack:
+  - React
+  - TypeScript
+  - Vite
+  - Tailwind CSS
+  - TanStack Query
+  - Axios
+  - Orval
+  - Zod
+  - React Router
+  - Vitest
+github: 'https://github.com/Team-BRIFO'
+demo: 'https://brifo.ai.kr'
+featured: true
+---
+
+## 프로젝트 개요
+
+BRIFO는 사용자가 투자 회사의 CEO가 되어 AI 사원에게 종목 분석을 의뢰하고, 보고서를 바탕으로 투자 방향과 확신도를 결정하는 게이미피케이션 기반 투자 교육 플랫폼입니다.
+
+사용자는 카드뉴스를 읽고 성향이 다른 AI 사원을 선택해 분석을 맡깁니다. 장 마감 후에는 결정 결과와 보상이 자동으로 정산되고, 모든 판단이 결정 일기에 기록됩니다. 실제 매매 대신 반복적인 의사결정과 회고를 통해 투자 판단 과정을 학습하도록 설계했습니다.
+
+## 문제 정의
+
+9주 안에 여러 도메인의 화면을 구현하면서 백엔드 API를 지속적으로 연결해야 했습니다. API 명세가 바뀔 때마다 수동 타입과 요청 코드를 함께 고치면 누락이 생기기 쉽고, 서버 응답 DTO가 화면 전체로 퍼지면 변경 영향도 커집니다.
+
+또한 투자 판단, 정산, AP, 사원 성장처럼 서로 영향을 주는 데이터가 많았습니다. 단순히 API 호출을 화면에 붙이는 것을 넘어 캐시 기준, 오류 처리, 인증 갱신, 런타임 응답 검증을 팀이 같은 방식으로 다룰 수 있는 경계가 필요했습니다.
+
+## 담당 역할
+
+프론트엔드 아키텍처를 설계하고 팀 탭의 사원 목록·상세, 결정 일기의 캘린더·목록·통계·상세, 마이페이지의 프로필·AP·배지·용어장·설정 화면을 구현했습니다.
+
+OpenAPI를 기준으로 Orval, Axios, Zod, TanStack Query를 연결하는 공통 API 계층을 설계했으며, 도메인별 Query·Mutation 훅의 위치와 캐시 정책, DTO를 화면 모델로 바꾸는 Mapper 규칙을 문서화하고 코드에 적용했습니다.
+
+## 주요 구현
+
+- 사원 목록·상세와 레벨, 경험치, 적중률 정보 UI 구현
+- 결정 일기 캘린더·목록·통계·상세 화면 및 실제 API 연동
+- cursor 기반 종목 검색과 목록 추가 로딩, 재시도 UI 구현
+- 프로필 편집, AP 내역, 배지, 용어장, 약관, 로그아웃·탈퇴 플로우 구현
+- 결정 일기 DOM을 PNG로 생성하고 이미지 저장과 카카오톡 공유로 연결
+- KST `LocalDateTime`과 `Instant` 응답을 구분해 날짜 표시 오류 방지
+- Vitest로 Mapper, Query·Mutation, 오류 계약과 주요 사용자 흐름의 회귀 테스트 작성
+
+## 기술적 판단
+
+### API 아키텍처
+
+OpenAPI를 API 계약의 단일 기준으로 두고 Orval은 Axios 요청 함수, DTO 타입, Zod schema만 생성하도록 제한했습니다. TanStack Query 훅까지 자동 생성하면 화면별 캐시 정책과 무효화 범위가 생성 설정에 묶이기 때문에, Query Key와 캐시 정책은 팀 코드가 직접 소유하도록 결정했습니다.
+
+런타임 데이터는 다음 순서로 처리했습니다.
+
+```text
+서버 응답
+  → Axios custom mutator
+  → generated Zod schema 검증
+  → optional result 확인
+  → Mapper로 DTO를 Domain/UI 모델로 변환
+  → TanStack Query Cache
+  → Page와 Component
+```
+
+Mapper를 Query의 `select`가 아니라 `queryFn` 안에서 실행해 raw DTO가 캐시에 남지 않도록 했습니다. Page는 생성 코드나 Mapper를 직접 알지 않고, Component는 API 훅 대신 Domain/UI 모델과 callback만 props로 받습니다. 이 구조로 서버 계약과 화면 모델의 변경 범위를 분리했습니다.
+
+### 오류와 인증 경계
+
+Axios 오류와 Zod 오류를 그대로 화면에 노출하지 않고 `ApiError`로 정규화했습니다. HTTP, network, contract, aborted를 구분하고 status와 서비스 code는 보존하되 내부 응답과 Zod issue는 사용자 UI에 노출하지 않았습니다.
+
+TanStack Query의 `AbortSignal`을 generated Axios 요청까지 전달해 화면 이탈로 취소된 요청이 일반 네트워크 오류나 자동 재시도로 처리되지 않게 했습니다. 읽기 Query는 일시적인 네트워크 오류와 500대 오류만 제한적으로 재시도하고, Mutation은 멱등성이 보장되지 않는 한 자동 재시도하지 않는 정책을 적용했습니다.
+
+인증은 Axios interceptor에서 Access Token 첨부와 401 응답을 처리했습니다. 동시에 여러 요청이 실패해도 refresh 요청은 하나의 Promise로 합치고, 갱신에 성공하면 취소되지 않은 원 요청만 한 번 재시도하도록 구성해 중복 갱신과 무한 루프를 막았습니다.
+
+### 로딩과 에러 UI
+
+API 실패를 별도 오류 URL로 보내지 않고 현재 화면의 상태로 다뤘습니다. 최초 조회에는 콘텐츠 크기와 비슷한 Skeleton을 보여주고, 기존 데이터가 있는 background refetch에서는 화면을 유지했습니다. 최초 요청 실패에는 `refetch` 기반 다시 시도를 제공하고, 추가 페이지 로딩 실패는 기존 목록을 보존한 채 해당 영역에서 다시 시도할 수 있게 했습니다.
+
+예상 가능한 API 오류는 Page와 TanStack Query가 처리하고, 렌더링 중 발생한 예상하지 못한 오류는 React Router Error Boundary가 마지막 안전망이 되도록 팀 가이드와 적용 체크리스트를 정리했습니다.
+
+## 결과 및 회고
+
+40개 path와 42개 operation으로 구성된 OpenAPI 명세를 생성 코드와 런타임 검증에 연결하고, 주요 담당 화면을 mock에서 실제 API로 전환했습니다. 생성 코드 diff, 인증 갱신, 요청 취소, 잘못된 성공 응답, HTTP 오류를 테스트해 명세 변경과 통신 오류를 화면에서 사용하기 전에 발견할 수 있는 기반을 만들었습니다.
+
+이 프로젝트를 통해 타입 안전성만으로는 외부 API 응답을 신뢰할 수 없으며, 생성 코드와 팀의 제품 정책을 분리해야 장기적으로 유지 가능한 구조가 된다는 점을 배웠습니다. 아키텍처 문서는 추상적인 규칙에 머무르지 않고 실제 화면 전환, 캐시 무효화, 오류 복구 같은 사용자 경험까지 설명해야 팀의 구현 기준으로 작동한다는 것도 확인했습니다.
