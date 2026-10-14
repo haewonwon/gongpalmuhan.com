@@ -50,24 +50,35 @@ src/
     page.tsx
     layout.tsx
     globals.css
-    about/
+    [locale]/
       page.tsx
-    projects/
-      page.tsx
-      [slug]/
+      profile/
+        page.tsx
+      projects/
+        page.tsx
+        [slug]/
+          page.tsx
+      blog/
         page.tsx
   components/
     layout/
     project/
+    blog/
     mdx/
     ui/
   content/
     projects/
+      ko/
+      en/
+    posts/
+      ko/
+      en/
   data/
+  i18n/
   lib/
 ```
 
-프로젝트 상세 페이지는 `src/content/projects/*.mdx`에서 관리합니다. 공통 프로젝트 메타데이터는 `src/data/projects.ts`에 두고, 상세 본문은 MDX에서 작성합니다.
+공개 페이지는 `/ko`를 기본 경로로 생성하며, 언어별 콘텐츠는 `src/content/<collection>/<locale>/` 아래에서 관리합니다. 현재는 한국어 콘텐츠만 공개합니다. 프로젝트 공통 메타데이터는 `src/data/projects.ts`에 두고, 상세 본문은 MDX에서 작성합니다.
 
 ## Cloudflare Pages Deployment
 

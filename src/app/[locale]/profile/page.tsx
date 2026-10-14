@@ -2,7 +2,7 @@ import { LinkButton } from '@/components/ui/LinkButton';
 import { SectionTitle } from '@/components/ui/SectionTitle';
 
 export const metadata = {
-  title: 'About',
+  title: 'Profile',
 };
 
 const certificates = [
@@ -37,7 +37,7 @@ export default function AboutPage() {
   return (
     <div className="space-y-12">
       <SectionTitle
-        title="About"
+        title="Profile"
         description={`설계와 문서화를 바탕으로 함께 이해하고 확장할 수 있는 구조를 만들고,\n사용자의 경험이 조금 더 나아지는 방향을 고민하는 프론트엔드 개발자 김해원입니다.`}
       />
 

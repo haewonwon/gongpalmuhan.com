@@ -5,18 +5,23 @@ import { ProjectMeta } from "@/components/project/ProjectMeta";
 import { Badge } from "@/components/ui/Badge";
 import { LinkButton } from "@/components/ui/LinkButton";
 import { projects } from "@/data/projects";
+import { enabledLocales, type Locale } from "@/i18n/config";
 import { getProjectMdx } from "@/lib/mdx";
 
 type ProjectDetailPageProps = {
   params: Promise<{
+    locale: Locale;
     slug: string;
   }>;
 };
 
 export function generateStaticParams() {
-  return projects.map((project) => ({
-    slug: project.slug,
-  }));
+  return enabledLocales.flatMap((locale) =>
+    projects.map((project) => ({
+      locale,
+      slug: project.slug,
+    })),
+  );
 }
 
 export async function generateMetadata({ params }: ProjectDetailPageProps) {
@@ -34,8 +39,8 @@ export async function generateMetadata({ params }: ProjectDetailPageProps) {
 }
 
 export default async function ProjectDetailPage({ params }: ProjectDetailPageProps) {
-  const { slug } = await params;
-  const result = await getProjectMdx(slug);
+  const { locale, slug } = await params;
+  const result = await getProjectMdx(slug, locale);
 
   if (!result) {
     notFound();
@@ -67,7 +72,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
               {link.label}
             </LinkButton>
           ))}
-          <LinkButton href="/projects">목록으로</LinkButton>
+          <LinkButton href={`/${locale}/projects`}>목록으로</LinkButton>
         </div>
       </div>
 

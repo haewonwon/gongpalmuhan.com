@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-import { Header } from "@/components/layout/Header";
-import { Sidebar } from "@/components/layout/Sidebar";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -19,15 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body>
-        <div className="min-h-screen bg-(--color-paper) text-(--color-ink)">
-          <Header />
-          <Sidebar />
-          <main className="mx-auto w-full max-w-(--content-max) px-5 pb-20 pt-24 md:px-10 lg:px-12 xl:ml-(--sidebar-width) xl:mr-auto xl:pt-14">
-            {children}
-          </main>
-        </div>
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

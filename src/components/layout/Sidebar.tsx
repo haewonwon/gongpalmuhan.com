@@ -1,18 +1,25 @@
 import { Github, Mail, MapPin } from 'lucide-react';
 import { profile } from '@/data/profile';
+import type { Locale } from '@/i18n/config';
 
-const navItems = [
-  { href: '/', label: 'Home' },
-  { href: '/projects', label: 'Projects' },
-  { href: '/about', label: 'About' },
+const getNavItems = (locale: Locale) => [
+  { href: `/${locale}`, label: 'Home' },
+  { href: `/${locale}/projects`, label: 'Projects' },
+  { href: `/${locale}/profile`, label: 'Profile' },
 ];
 
-export function Sidebar() {
+type SidebarProps = {
+  locale: Locale;
+};
+
+export function Sidebar({ locale }: SidebarProps) {
+  const navItems = getNavItems(locale);
+
   return (
     <aside className="fixed inset-y-0 left-0 hidden w-(--sidebar-width) border-r border-(--color-rule-storm) bg-(--color-surface) px-5 py-6 xl:block">
       <div className="flex h-full flex-col">
         <a
-          href="/"
+          href={`/${locale}`}
           className="block border-l-2 border-(--color-storm) px-3 py-2 transition-colors duration-(--dur-fast) hover:bg-(--color-paper-mark)"
         >
           <p className="text-base font-semibold text-(--color-ink)">{profile.name}</p>

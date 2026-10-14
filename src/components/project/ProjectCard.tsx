@@ -1,14 +1,16 @@
 import { ArrowRight } from 'lucide-react';
 import { Badge } from '@/components/ui/Badge';
 import type { Project } from '@/data/projects';
+import type { Locale } from '@/i18n/config';
 import { cn } from '@/lib/utils';
 
 type ProjectCardProps = {
+  locale: Locale;
   project: Project;
   trimFirstBorder?: boolean;
 };
 
-export function ProjectCard({ project, trimFirstBorder = false }: ProjectCardProps) {
+export function ProjectCard({ locale, project, trimFirstBorder = false }: ProjectCardProps) {
   return (
     <article
       className={cn(
@@ -24,7 +26,7 @@ export function ProjectCard({ project, trimFirstBorder = false }: ProjectCardPro
           <h2 className="mt-1 text-xl font-semibold tracking-normal text-(--color-ink)">
             <a
               className="underline decoration-(--color-rule-rain) underline-offset-4 transition-colors duration-(--dur-fast) hover:text-(--color-graphite) hover:decoration-(--color-graphite) group-hover:text-(--color-graphite)"
-              href={`/projects/${project.slug}`}
+              href={`/${locale}/projects/${project.slug}`}
             >
               {project.title}
             </a>
@@ -34,7 +36,7 @@ export function ProjectCard({ project, trimFirstBorder = false }: ProjectCardPro
         <a
           aria-label={`${project.title} 상세 보기`}
           className="inline-flex size-9 shrink-0 items-center justify-center border border-(--color-rule-rain) text-(--color-ink) transition-colors duration-(--dur-fast) hover:bg-(--color-paper-mark) hover:text-(--color-graphite)"
-          href={`/projects/${project.slug}`}
+          href={`/${locale}/projects/${project.slug}`}
         >
           <ArrowRight size={17} aria-hidden />
         </a>

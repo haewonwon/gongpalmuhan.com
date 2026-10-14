@@ -1,12 +1,21 @@
 import { ProjectCard } from '@/components/project/ProjectCard';
 import { SectionTitle } from '@/components/ui/SectionTitle';
 import { projects } from '@/data/projects';
+import type { Locale } from '@/i18n/config';
 
 export const metadata = {
   title: 'Projects',
 };
 
-export default function ProjectsPage() {
+type ProjectsPageProps = {
+  params: Promise<{
+    locale: Locale;
+  }>;
+};
+
+export default async function ProjectsPage({ params }: ProjectsPageProps) {
+  const { locale } = await params;
+
   return (
     <div>
       <SectionTitle
@@ -15,7 +24,7 @@ export default function ProjectsPage() {
       />
       <div>
         {projects.map((project) => (
-          <ProjectCard key={project.slug} project={project} trimFirstBorder />
+          <ProjectCard key={project.slug} locale={locale} project={project} trimFirstBorder />
         ))}
       </div>
     </div>
