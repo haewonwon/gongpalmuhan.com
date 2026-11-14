@@ -1,0 +1,76 @@
+## 제목 2단계
+
+본문 문단입니다. 마크다운에서 한 줄만 바꾼 행은
+같은 문단으로 이어집니다(soft break).
+
+문단을 나누려면 빈 줄을 둡니다.
+
+### 제목 3단계
+
+**굵게**, _기울임_, ~~취소선~~, `inline code`, [내부 링크](/ko/projects), [외부 링크](https://github.com/haewonwon)
+
+자동 링크: https://gongpalmuhan.com/ko/projects/brifo
+
+긴 URL: https://example.com/a/very/long/path/that/should/wrap/instead/of/overflowing/the/reading/column/on/narrow/mobile/screens?query=value&another=value
+
+## 목록
+
+- 비순서 목록
+- 중첩 목록
+  - 2단계 항목
+    - 3단계 항목
+- 마지막 항목
+
+1. 순서 목록
+2. 두 번째
+   1. 중첩 순서
+   2. 중첩 순서
+
+- [x] 완료한 항목
+- [ ] 남은 항목
+
+## 표
+
+| 영역 | 직접 구현한 범위 | 공동 작업·역할 경계 |
+|---|---|---|
+| 화면 | 사원·결정 일기·마이페이지 | 나머지 도메인은 팀원 담당 |
+| API 계층 | `orval.config.ts`, `axiosInstance` | 설정 파일 일부 공동 수정 |
+| 긴 설명 | 표가 칼럼보다 넓어지면 표 안에서만 가로 스크롤되어야 하고 페이지 전체가 넓어지면 안 됩니다. | — |
+
+## 인용문
+
+> 인용문은 왼쪽 선으로 구분합니다.
+>
+> 두 번째 문단도 같은 인용문 안에 있습니다.
+
+## 코드 블록
+
+```text
+서버 응답
+  → Axios custom mutator
+  → generated Zod schema 검증
+  → Mapper로 DTO를 Domain/UI 모델로 변환
+  → TanStack Query Cache
+```
+
+```ts
+export const veryLongLineThatShouldScrollHorizontallyInsideTheCodeBlockInsteadOfBeingClipped = (input: string) => input.trim();
+```
+
+## 이미지
+
+![gongpalmuhan 로고 (대체 텍스트 예시)](/assets/0800_black.png)
+
+## 각주
+
+각주가 있는 문장입니다.[^1]
+
+[^1]: 각주 내용입니다.
+
+## MDX 주의 문법
+
+MDX에서는 꺾쇠와 중괄호가 JSX로 해석됩니다. 글자로 쓰려면 `<1초`, `{id}`처럼 인라인 코드로 감싸거나 `&lt;` 같은 문자 참조를 씁니다: 응답 시간 &lt;1초, 경로 &#123;id&#125;
+
+<Callout>
+Callout 컴포넌트도 같은 스타일 안에서 렌더링됩니다.
+</Callout>
