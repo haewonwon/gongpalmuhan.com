@@ -78,7 +78,15 @@ src/
   lib/
 ```
 
-공개 페이지는 `/ko`를 기본 경로로 생성하며, 언어별 콘텐츠는 `src/content/<collection>/<locale>/` 아래에서 관리합니다. 현재는 한국어 콘텐츠만 공개합니다. 프로젝트 공통 메타데이터는 `src/data/projects.ts`에 두고, 상세 본문은 MDX에서 작성합니다.
+공개 페이지는 `/ko`를 기본 경로로 생성하며, 언어별 콘텐츠는 `src/content/<collection>/<locale>/` 아래에서 관리합니다. 현재는 한국어 콘텐츠만 공개합니다.
+
+### 콘텐츠 관리
+
+- 프로젝트 메타데이터(기간·팀 구성·역할·핵심 기여·링크)는 `src/data/projects.ts` 한 곳에서 관리합니다. 카드와 상세 상단이 같은 값을 씁니다.
+- 프로필·경력은 `src/data/profile.ts`에서 관리합니다. 기간·역할은 이력서(`public/kim-haewon-resume.pdf`)와 같게 유지합니다.
+- 상세 본문은 `src/content/projects/ko/<slug>.mdx`에 frontmatter 없이 작성합니다. GFM(표·체크리스트·각주·취소선)을 지원합니다.
+- MDX에서는 `<`, `{`가 JSX로 해석되어 빌드가 실패합니다. 글자로 쓰려면 인라인 코드로 감싸거나 `&lt;`, `&#123;`를 씁니다.
+- `pnpm dev` 실행 중 `/ko/dev/markdown`에서 마크다운 렌더링을 점검할 수 있습니다(`*.dev.tsx`, 프로덕션 빌드에서는 제외).
 
 ## Cloudflare Pages Deployment
 
