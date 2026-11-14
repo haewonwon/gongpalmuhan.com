@@ -42,6 +42,10 @@ export type ProjectMdx = {
   source: string;
 };
 
+/**
+ * 프로젝트 메타데이터는 src/data/projects.ts 만 사용합니다.
+ * MDX 파일에는 본문만 두고 frontmatter를 쓰지 않습니다.
+ */
 export async function getProjectMdx(slug: string, locale: Locale): Promise<ProjectMdx | null> {
   const project = projects.find((item) => item.slug === slug);
 

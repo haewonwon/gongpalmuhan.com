@@ -1,8 +1,6 @@
 import { notFound } from "next/navigation";
-import { MDXRemote } from "next-mdx-remote/rsc";
-import { MDXComponents } from "@/components/mdx/MDXComponents";
+import { MdxContent } from "@/components/mdx/MdxContent";
 import { ProjectMeta } from "@/components/project/ProjectMeta";
-import { Badge } from "@/components/ui/Badge";
 import { LinkButton } from "@/components/ui/LinkButton";
 import { projects } from "@/data/projects";
 import { enabledLocales, type Locale } from "@/i18n/config";
@@ -34,7 +32,7 @@ export async function generateMetadata({ params }: ProjectDetailPageProps) {
 
   return {
     title: project.title,
-    description: project.description,
+    description: project.summary,
   };
 }
 
@@ -50,36 +48,10 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
 
   return (
     <article>
-      <div className="mb-10 border-b border-(--color-rule-storm) pb-7">
-        <p className="mb-3 text-(length:--text-caption) font-medium text-(--color-graphite)">
-          {project.team} · {project.period}
-        </p>
-        <h1 className="max-w-3xl text-(length:--text-title) font-semibold leading-tight tracking-normal text-(--color-ink)">{project.title}</h1>
-        <p className="mt-4 max-w-2xl text-(length:--text-lede) leading-8 text-(--color-muted-ink)">{project.description}</p>
-        <div className="mt-5 flex flex-wrap gap-x-2 gap-y-1.5">
-          {project.stack.map((item) => (
-            <Badge key={item}>{item}</Badge>
-          ))}
-        </div>
-        <div className="mt-6 flex flex-wrap gap-3">
-          {project.github ? (
-            <LinkButton href={project.github} external>
-              GitHub
-            </LinkButton>
-          ) : null}
-          {project.links?.map((link) => (
-            <LinkButton href={link.href} external key={link.href}>
-              {link.label}
-            </LinkButton>
-          ))}
-          <LinkButton href={`/${locale}/projects`}>목록으로</LinkButton>
-        </div>
-      </div>
-
       <ProjectMeta project={project} />
-
-      <div className="prose-content mt-8">
-        <MDXRemote components={MDXComponents} source={source} />
+      <MdxContent source={source} />
+      <div className="mt-14 border-t border-(--color-rule-storm) pt-6">
+        <LinkButton href={`/${locale}/projects`}>프로젝트 목록으로</LinkButton>
       </div>
     </article>
   );
