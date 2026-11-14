@@ -16,48 +16,66 @@ export default async function Home({ params }: HomePageProps) {
   const featuredProjects = projects.filter((project) => project.featured);
 
   return (
-    <div className="space-y-10">
+    <div className="space-y-12">
       <section>
         <SectionTitle
-          title="함께 이해하고 확장할 수 있는 구조를 만듭니다."
+          title={`${profile.title} ${profile.name}입니다.`}
           description={profile.summary}
-        />
-        {/* <div className="mt-6 flex flex-wrap gap-3">
-          <LinkButton href="/projects">프로젝트 보기</LinkButton>
-          <LinkButton href={profile.github} external>
-            GitHub
-          </LinkButton>
-        </div> */}
-      </section>
-
-      <section>
-        <h2 className="mb-5 text-2xl font-semibold">Strengths</h2>
-        <div className="grid gap-x-8 gap-y-3 sm:grid-cols-2">
-          {profile.strengths.map((strength) => (
-            <p
-              className="border-t border-(--color-rule-storm) pt-3 text-sm leading-7 text-(--color-muted-ink)"
-              key={strength}
-            >
-              {strength}
-            </p>
-          ))}
-        </div>
-      </section>
-
-      <section>
-        <div className="mb-2 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <h2 className="text-2xl font-semibold pb-2">Projects</h2>
+        >
+          <div className="flex flex-wrap gap-x-5 gap-y-2">
+            <LinkButton href={profile.resume} external>
+              이력서
+            </LinkButton>
+            <LinkButton href={`/${locale}/projects`}>프로젝트</LinkButton>
+            <LinkButton href={profile.github} external>
+              GitHub
+            </LinkButton>
+            <LinkButton href={`mailto:${profile.email}`}>이메일</LinkButton>
           </div>
+        </SectionTitle>
+      </section>
+
+      <section aria-labelledby="featured-projects">
+        <div className="mb-2 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+          <h2 id="featured-projects" className="pb-2 text-2xl font-semibold">
+            대표 프로젝트
+          </h2>
           <LinkButton href={`/${locale}/projects`} className="h-auto leading-6">
-            View all
+            전체 보기
           </LinkButton>
         </div>
         <div>
           {featuredProjects.map((project) => (
-            <ProjectCard key={project.slug} locale={locale} project={project} />
+            <ProjectCard
+              headingLevel="h3"
+              key={project.slug}
+              locale={locale}
+              project={project}
+            />
           ))}
         </div>
+      </section>
+
+      <section aria-labelledby="experience-summary">
+        <h2 id="experience-summary" className="mb-4 text-2xl font-semibold">
+          경험
+        </h2>
+        <ul className="space-y-2 text-sm leading-7 text-(--color-muted-ink)">
+          {[...profile.experience.slice(0, 1), ...profile.activities.slice(0, 2)].map((item) => (
+            <li className="flex flex-col sm:flex-row sm:gap-3" key={item.title}>
+              <span className="text-(--color-faint-ink) sm:w-40 sm:shrink-0">{item.period}</span>
+              <span className="text-(--color-ink)">
+                {item.title}
+                {item.detail ? (
+                  <span className="text-(--color-muted-ink)"> · {item.detail}</span>
+                ) : null}
+              </span>
+            </li>
+          ))}
+        </ul>
+        <LinkButton className="mt-4" href={`/${locale}/profile`}>
+          Profile에서 자세히 보기
+        </LinkButton>
       </section>
     </div>
   );

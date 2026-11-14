@@ -1,19 +1,20 @@
-import { Github, Mail, MapPin } from 'lucide-react';
-import { profile } from '@/data/profile';
+import { FileDown, Github, Mail, MapPin } from 'lucide-react';
+import { getNavItems } from '@/components/layout/nav';
+import { profile, type ProfileLinkIcon } from '@/data/profile';
 import type { Locale } from '@/i18n/config';
 
-const getNavItems = (locale: Locale) => [
-  { href: `/${locale}`, label: 'Home' },
-  { href: `/${locale}/projects`, label: 'Projects' },
-  { href: `/${locale}/profile`, label: 'Profile' },
-];
+const linkIcons: Record<ProfileLinkIcon, typeof Github> = {
+  github: Github,
+  mail: Mail,
+  resume: FileDown,
+};
 
 type SidebarProps = {
   locale: Locale;
 };
 
 export function Sidebar({ locale }: SidebarProps) {
-  const navItems = getNavItems(locale);
+  const navItems = getNavItems(locale).filter((item) => !item.external);
 
   return (
     <aside className="fixed inset-y-0 left-0 hidden w-(--sidebar-width) border-r border-(--color-rule-storm) bg-(--color-surface) px-5 py-6 xl:block">
@@ -26,7 +27,7 @@ export function Sidebar({ locale }: SidebarProps) {
           <p className="mt-1 text-sm text-(--color-muted-ink)">{profile.title}</p>
         </a>
 
-        <nav className="mt-10 border-t border-(--color-rule-rain) pt-4">
+        <nav aria-label="주요 메뉴" className="mt-10 border-t border-(--color-rule-rain) pt-4">
           {navItems.map((item) => (
             <a
               className="block border-b border-(--color-rule-graphite) px-1 py-2.5 text-sm text-(--color-muted-ink) transition-colors duration-(--dur-fast) hover:text-(--color-ink)"
@@ -43,20 +44,21 @@ export function Sidebar({ locale }: SidebarProps) {
             <MapPin size={15} aria-hidden />
             {profile.location}
           </p>
-          {profile.links.map((link) => (
-            <a
-              key={link.href}
-              className="mt-3 flex items-center gap-2 text-sm text-(--color-muted-ink) transition-colors duration-(--dur-fast) hover:text-(--color-graphite)"
-              href={link.href}
-            >
-              {link.icon === 'github' ? (
-                <Github size={15} aria-hidden />
-              ) : (
-                <Mail size={15} aria-hidden />
-              )}
-              {link.label}
-            </a>
-          ))}
+          {profile.links.map((link) => {
+            const Icon = linkIcons[link.icon];
+            return (
+              <a
+                key={link.href}
+                className="mt-3 flex items-center gap-2 text-sm text-(--color-muted-ink) transition-colors duration-(--dur-fast) hover:text-(--color-graphite)"
+                href={link.href}
+                rel={link.external ? 'noreferrer' : undefined}
+                target={link.external ? '_blank' : undefined}
+              >
+                <Icon size={15} aria-hidden />
+                {link.label}
+              </a>
+            );
+          })}
         </div>
 
         <p className="mt-auto text-xs leading-5 text-(--color-faint-ink)">gongpalmuhan.com</p>

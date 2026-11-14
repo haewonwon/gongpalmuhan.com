@@ -4,6 +4,8 @@ type SectionTitleProps = {
   eyebrow?: string;
   title: string;
   description?: string;
+  /** 제목 블록 안(구분선 위)에 놓을 링크 등 */
+  children?: React.ReactNode;
 };
 
 function renderDescription(description: string) {
@@ -15,7 +17,7 @@ function renderDescription(description: string) {
   ));
 }
 
-export function SectionTitle({ title, description }: SectionTitleProps) {
+export function SectionTitle({ title, description, children }: SectionTitleProps) {
   return (
     <div className="mb-10 border-b border-(--color-rule-storm) pb-7">
       {/* {eyebrow ? (
@@ -31,6 +33,7 @@ export function SectionTitle({ title, description }: SectionTitleProps) {
           {renderDescription(description)}
         </p>
       ) : null}
+      {children ? <div className="mt-6">{children}</div> : null}
     </div>
   );
 }
