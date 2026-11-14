@@ -1,70 +1,59 @@
----
-title: 'Unplan'
-description: '컨디션과 생활 패턴에 맞춰 하루를 조정하는 스마트 스케줄러 모바일 앱'
-period: '2026.05 - 2026.07'
-team: '팀 프로젝트'
-role: 'Mobile Frontend Developer'
-stack:
-  - React Native
-  - Expo
-  - TypeScript
-  - TanStack Query
-  - Zustand
-  - Axios
-  - Orval
-  - Kakao Login
-  - Google Sign-In
-  - EAS Build
-github: 'https://github.com/unplan-tave/unplan-app'
-demo: ''
-featured: true
----
+## 문제와 목적
 
-## 프로젝트 개요
+Unplan은 계획을 빈틈없이 채우는 대신, 그날의 컨디션과 생활 패턴에 맞춰 할 일을 조정하도록 돕는 스케줄러 앱입니다. React Native와 Expo로 만들었습니다.
 
-Unplan은 사용자의 컨디션과 생활 패턴을 바탕으로 그날의 일정을 유연하게 관리하도록 돕는 스마트 스케줄러 모바일 앱입니다. 계획을 빈틈없이 채우는 대신 오늘의 상태에 맞춰 할 일을 조정하고 하루를 이어갈 수 있는 경험을 만들었습니다.
+팀 6명 중 프론트엔드가 1명이었기 때문에 화면, 소셜 로그인, API 연동, 앱 빌드와 배포까지 프론트엔드 쪽 기준을 모두 직접 정해야 했습니다.
 
-React Native와 Expo 기반으로 iOS와 Android를 함께 지원하며, 소셜 로그인부터 온보딩, 일정 관리까지 하나의 모바일 흐름으로 연결하는 팀 프로젝트입니다.
+## 내가 맡은 범위
 
-## 문제 정의
+| 영역 | 직접 맡은 범위 | 공동 작업·역할 경계 |
+|---|---|---|
+| 화면 | 디자인 토큰, Typography·Tag 등 공통 UI, 로그인·온보딩과 일정 화면 | 화면 디자인은 디자이너 2명 담당 |
+| 인증 | 카카오 로그인(카카오톡 미설치 시 카카오 계정 로그인으로 전환), Google Sign-In, 토큰을 `expo-secure-store`에 저장 | 토큰 교환·검증 API는 백엔드 담당 |
+| 상태·데이터 | Orval·Axios로 OpenAPI 기반 요청 함수와 타입 생성, 서버 상태는 TanStack Query, 세션 같은 앱 상태는 Zustand | API 명세는 백엔드 3명 담당 |
+| 빌드·배포 | GitHub Actions와 EAS Build·EAS Update로 미리보기 배포, TestFlight 배포 | — |
 
-모바일 스케줄러는 일정 데이터만 보여주는 것으로 끝나지 않습니다. 로그인 세션, 온보딩 완료 여부, 사용자의 생활 패턴, 화면 전환 중 유지해야 하는 상태를 함께 다뤄야 합니다. 네이티브 SDK와 백엔드 API가 동시에 연결되므로 플랫폼별 설정 차이와 인증 실패 경로도 고려해야 했습니다.
+## 주요 기술 결정
 
-기능이 빠르게 늘어나는 상황에서도 화면마다 요청 로직과 상태 관리 방식이 달라지지 않도록, 프로젝트 초기에 공통 UI와 API 연동 기준을 먼저 세우는 것이 중요했습니다.
+### 변경 경로에 따라 미리보기 배포 방식을 나누기
 
-## 담당 역할
+네이티브 SDK가 포함된 앱의 미리보기 빌드는 약 7분이 걸렸습니다. 그런데 실제 변경은 JavaScript만 바꾸는 경우가 많았습니다.
 
-모바일 프론트엔드 개발을 맡아 프로젝트 초기 구조와 컨벤션을 정리하고, 디자인 토큰과 공통 UI 컴포넌트, 로그인·온보딩 화면을 구현했습니다. 이후 카카오·구글 소셜 로그인과 OpenAPI 기반 API 클라이언트, EAS 기반 미리보기 배포 흐름을 연결했습니다.
+그래서 `develop` 브랜치에 push되면 GitHub Actions가 먼저 변경 경로를 검사하도록 했습니다. `android/`, `ios/`, `app.json`, `package.json`, `eas.json` 같은 네이티브 관련 파일이 바뀌었을 때만 Preview Build를 실행하고, 그 외에는 EAS Update로 JavaScript 번들만 미리보기 채널에 올립니다. 수동 실행할 때는 `force_native_build` 옵션으로 Preview Build를 강제할 수 있습니다.
 
-구현 코드뿐 아니라 PR 템플릿과 개발 문서를 함께 관리해 팀원이 같은 구조와 검토 기준으로 작업할 수 있도록 했습니다.
+성공한 미리보기 배포 51회 중 46회를 약 2분이 걸리는 EAS Update로 처리했습니다.
 
-## 주요 구현
+- 워크플로: [`ci.yml`](https://github.com/unplan-tave/unplan-app/blob/develop/.github/workflows/ci.yml), [`release.yml`](https://github.com/unplan-tave/unplan-app/blob/develop/.github/workflows/release.yml)
 
-- Expo Router 권장 구조에 맞춰 라우트, 화면, 상태 모듈의 책임 분리
-- 색상·간격·타이포그래피 디자인 토큰과 Typography, Tag 등 공통 UI 구현
-- 생활 패턴을 입력하는 온보딩 플로우와 공통 입력 컴포넌트 구현
-- 카카오톡 설치 여부에 따른 카카오 계정 로그인 fallback 처리
-- Google Sign-In의 ID Token과 카카오 Access Token을 백엔드 로그인 API에 연결
-- Orval과 Axios를 이용해 OpenAPI 기반 요청 함수와 타입 생성
-- TanStack Query와 Zustand로 서버 상태와 앱 전역 클라이언트 상태 분리
-- EAS Build·EAS Update와 GitHub Actions를 연결해 iOS·Android 미리보기 배포 자동화
+### 생성 코드와 앱 정책 분리
 
-### 소셜 로그인 검증 환경
+API 요청 함수와 타입은 Orval로 생성하되, 인증 처리와 화면 상태까지 생성 코드에 맡기지는 않았습니다. Axios 공통 클라이언트가 요청 설정을 맡고, 화면은 직접 작성한 hook을 통해 서버 상태를 사용합니다.
 
-소셜 로그인은 앱, OAuth 제공자, 백엔드가 함께 동작하기 때문에 실패 원인을 한쪽 코드만 보고 판단하기 어려웠습니다. 네이티브 앱에서 받은 토큰이 올바른지, 백엔드 교환 과정에서 어떤 응답이 오는지 분리해 확인할 수 있도록 [social-token-console](https://github.com/haewonwon/social-token-console)을 별도 저장소로 관리했습니다.
+## 문제 해결 사례
 
-이를 통해 앱 화면 구현과 인증 API 검증을 분리하고, 카카오와 구글 인증 흐름을 연결할 때 문제 범위를 더 빠르게 좁힐 수 있도록 했습니다.
+### 앱에 돌아와도 데이터가 갱신되지 않던 문제
 
-## 기술적 판단
+앱을 나갔다 돌아오거나 화면에 다시 들어와도 서버 데이터가 갱신되지 않았습니다. 원인은 두 가지였습니다.
 
-서버에서 받은 데이터는 TanStack Query가 관리하고, 인증 세션처럼 여러 화면에서 즉시 공유해야 하는 앱 상태는 Zustand가 관리하도록 책임을 나눴습니다. 토큰은 일반 스토리지에 평문으로 저장하지 않고 `expo-secure-store`를 사용해 네이티브 보안 저장소에 보관했습니다.
+1. React Native에는 브라우저의 창 포커스 이벤트가 없어서, TanStack Query가 앱이 다시 활성화된 것을 알지 못했습니다.
+2. 처음에는 지난 날짜 기록은 바뀌지 않는다고 보고 `staleTime`을 `Infinity`로, 전역 기본값은 5분으로 두었습니다. 그래서 다시 들어와도 요청이 나가지 않았습니다.
 
-API 요청 함수와 타입은 Orval로 생성하되, 인증과 화면 상태까지 생성 코드에 맡기지는 않았습니다. Axios 공통 클라이언트가 요청 설정을 담당하고, 화면에서는 팀이 작성한 훅을 통해 서버 상태를 사용하도록 구성했습니다. 생성 코드와 앱 정책을 분리해 API 명세가 바뀌어도 화면 코드에 미치는 범위를 줄이고자 했습니다.
+React Native의 `AppState` 변경을 TanStack Query의 `focusManager`에 연결해 앱 복귀를 알리고, 지난 날짜 기록도 다른 기기에서 바뀔 수 있다고 판단해 전역 및 지난 날짜 `staleTime`을 0으로 바꿨습니다. 오늘 기록은 기존대로 기록 mutation 후 무효화로 갱신합니다. ([커밋 cf10f4c](https://github.com/unplan-tave/unplan-app/commit/cf10f4c))
 
-배포에서는 JavaScript 변경과 네이티브 의존성 변경을 구분했습니다. JavaScript 변경은 EAS Update로 빠르게 확인하고, 네이티브 변경이 포함되면 플랫폼별 Preview Build를 실행하도록 CI 흐름을 나눴습니다.
+이 변경으로 화면에 다시 들어올 때마다 요청이 다시 나갑니다. 요청 수 변화는 측정하지 않았습니다.
 
-## 결과 및 회고
+### 소셜 로그인 검증 환경 분리
 
-프로젝트 초기의 디자인 토큰과 공통 컴포넌트부터 소셜 로그인, API 생성, 미리보기 배포까지 모바일 앱 개발의 기반을 단계적으로 구축했습니다. 특히 카카오와 구글 로그인을 실제 네이티브 빌드와 백엔드 API까지 연결하면서 웹과 다른 모바일 인증 환경을 경험했습니다.
+소셜 로그인은 앱, OAuth 제공자, 백엔드가 함께 동작해서 한쪽 코드만 보고는 실패 원인을 판단하기 어려웠습니다. 앱에서 받은 토큰이 올바른지, 백엔드 교환 과정에서 어떤 응답이 오는지를 따로 확인할 수 있도록 토큰 확인용 웹 도구를 따로 만들어 사용했습니다.
 
-공통 구조와 문서를 먼저 정리한 덕분에 이후 기능을 추가할 때 화면마다 새로운 방식을 만들지 않고 같은 기준을 재사용할 수 있었습니다. 이 과정에서 구조는 문서만으로 완성되는 것이 아니라, 실제 기능을 연결하고 리뷰 피드백을 반영하며 계속 검증해야 한다는 점을 배웠습니다.
+## 결과와 한계
+
+- TestFlight로 배포했고, 팀은 TAVE 17기에서 우수상(2등)을 받았습니다. 현재 TestFlight 빌드는 내려가 있습니다.
+- Preview Build와 릴리스 빌드는 iOS만 대상으로 구성했습니다. Android 빌드·배포 파이프라인은 만들지 않았습니다.
+
+## 확인 자료
+
+- 저장소: [unplan-tave/unplan-app](https://github.com/unplan-tave/unplan-app)
+- 개발 문서: [`docs/`](https://github.com/unplan-tave/unplan-app/tree/develop/docs)
+- 소셜 로그인: [`src/domains/auth/social-login.ts`](https://github.com/unplan-tave/unplan-app/blob/develop/src/domains/auth/social-login.ts)
+- 토큰 저장: [`src/lib/storage/secure-storage.ts`](https://github.com/unplan-tave/unplan-app/blob/develop/src/lib/storage/secure-storage.ts)
