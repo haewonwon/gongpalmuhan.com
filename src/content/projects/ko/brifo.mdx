@@ -8,12 +8,12 @@ BRIFO는 사용자가 투자 회사의 CEO가 되어 AI 사원에게 종목 분�
 
 프론트엔드 3명 중 리드로, 프론트엔드 구조와 API 연동 규칙을 정하고 담당 도메인 화면을 구현했습니다.
 
-| 영역 | 직접 맡은 범위 | 공동 작업·역할 경계 |
+| 영역 | 직접 맡은 범위 | 공동 작업/역할 경계 |
 |---|---|---|
 | API 계층 | `orval.config.ts`, `axiosInstance`, `executeApiRequest`, `ApiError` 최초 작성 ([#68](https://github.com/Team-BRIFO/BRIFO-front/pull/68)), 도메인별 query hook 분리 ([#65](https://github.com/Team-BRIFO/BRIFO-front/pull/65)) | 이후 팀원 1명이 설정 파일 일부를 함께 수정 |
-| 화면 | 사원 목록·상세, 결정 일기, 마이페이지 구현과 API 연동, 결정 일기 공유 이미지·카카오 공유 | 다른 도메인 화면은 FE 팀원 2명 담당 |
-| 공통 컴포넌트 | 공통 컴포넌트 설계 초안과 검토 체크리스트, Modal·NavigationBar·BottomSheet 등 구현 | 구현이 과제 범위에 들어온 뒤 공통 구현은 팀원 2명과 나눔 |
-| 개발 환경 | Husky·lint-staged ([#22](https://github.com/Team-BRIFO/BRIFO-front/pull/22)), GitHub Actions CI ([#23](https://github.com/Team-BRIFO/BRIFO-front/pull/23)), 생성 코드 비교 검사 | — |
+| 화면 | 사원 목록/상세, 결정 일기, 마이페이지 구현과 API 연동, 결정 일기 공유 이미지와 카카오 공유 | 다른 도메인 화면은 FE 팀원 2명 담당 |
+| 공통 컴포넌트 | 공통 컴포넌트 설계 초안과 검토 체크리스트, Modal, NavigationBar, BottomSheet 등 구현 | 구현이 과제 범위에 들어온 뒤 공통 구현은 팀원 2명과 나눔 |
+| 개발 환경 | Husky/lint-staged ([#22](https://github.com/Team-BRIFO/BRIFO-front/pull/22)), GitHub Actions CI ([#23](https://github.com/Team-BRIFO/BRIFO-front/pull/23)), 생성 코드 비교 검사 | |
 | 백엔드 협업 | Swagger 점검 항목과 화면 기준 누락 필드 요청, 실패 응답 문서화 요청 | 서버 수정은 백엔드 담당 |
 
 ## 주요 기술 결정
@@ -22,7 +22,7 @@ BRIFO는 사용자가 투자 회사의 CEO가 되어 AI 사원에게 종목 분�
 
 처음 회의에서는 입력 폼이 적다는 이유로 Zod를 쓰지 않기로 했습니다. 이후 API 연동을 준비하면서 Zod를 폼 검증이 아니라 **API 응답 검증** 용도로 다시 제안했습니다. TypeScript 타입은 컴파일할 때만 검사하므로, 실행 중 서버가 명세와 다른 데이터를 보내면 막을 수 없기 때문입니다. 팀원들이 직접 검토한 뒤 도입을 결정했습니다.
 
-### Orval 생성 범위를 요청 함수·타입·스키마로 제한
+### Orval 생성 범위를 요청 함수, 타입, 스키마로 제한
 
 Orval은 TanStack Query hook까지 생성할 수 있지만, 생성 범위를 요청 함수, DTO 타입, Zod 스키마로 좁혔습니다. Query Key와 캐시 정책을 생성 설정이 아닌 팀 코드에서 관리하기 위해서입니다. 대신 도메인 hook은 사람이 작성해야 하므로, 작성 순서와 "생성 파일은 수정하지 않는다" 같은 규칙을 `src/hooks/api/README.md`에 정리했습니다.
 
@@ -30,7 +30,7 @@ Orval은 TanStack Query hook까지 생성할 수 있지만, 생성 범위를 요
 
 ```text
 서버 응답
-  → Axios 공통 인스턴스 (인증·refresh 처리)
+  → Axios 공통 인스턴스 (인증, refresh 처리)
   → Orval이 생성한 Zod 스키마로 검증
   → Mapper로 DTO를 화면 모델로 변환
   → TanStack Query 캐시
@@ -53,7 +53,7 @@ Orval로 만든 타입이 실제 응답과 맞지 않는 문제가 있었습니�
 
 프론트엔드에서는 [#102](https://github.com/Team-BRIFO/BRIFO-front/pull/102)에서 다음을 반영했습니다.
 
-- KST `LocalDateTime` 응답을 원문 그대로 검증·표시하는 유틸과 회귀 테스트
+- KST `LocalDateTime` 응답을 원문 그대로 검증하고 표시하는 유틸과 회귀 테스트
 - Orval 설정에서 `Instant` 필드를 구분하는 전처리 ([`orval.config.ts`](https://github.com/Team-BRIFO/BRIFO-front/blob/dev/orval.config.ts))
 
 서버 쪽에서는 환경변수와 `@JsonFormat` 적용으로 수정됐습니다. 함께 제안했던 `dateTimeProviderRef` 연결은 반영되지 않았습니다.
@@ -62,7 +62,7 @@ Orval로 만든 타입이 실제 응답과 맞지 않는 문제가 있었습니�
 
 - 웹으로 배포했고, 팀은 UMC INHA 10기에서 우수상(3등)을 받았습니다.
 - 담당 화면을 목 데이터에서 실제 API로 전환했고, API 연동 규칙을 팀원들과 40개 경로에 적용했습니다.
-- 제출 당일 모달·탭·카운트다운 상태를 필요한 범위로 옮겨 클릭 한 번에 페이지 전체가 다시 렌더링되던 문제를 줄였지만, 렌더링 횟수나 응답 시간을 전후로 측정하지는 않았습니다.
+- 제출 당일 모달, 탭, 카운트다운 상태를 필요한 범위로 옮겨 클릭 한 번에 페이지 전체가 다시 렌더링되던 문제를 줄였지만, 렌더링 횟수나 응답 시간을 전후로 측정하지는 않았습니다.
 
 ## 확인 자료
 
