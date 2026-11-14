@@ -67,7 +67,7 @@ export default async function Home({ params }: HomePageProps) {
               <span className="text-(--color-ink)">
                 {item.title}
                 {item.detail ? (
-                  <span className="text-(--color-muted-ink)"> · {item.detail}</span>
+                  <span className="text-(--color-muted-ink)"> / {item.detail}</span>
                 ) : null}
               </span>
             </li>

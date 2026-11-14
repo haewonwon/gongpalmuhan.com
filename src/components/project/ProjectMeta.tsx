@@ -12,7 +12,7 @@ export function ProjectMeta({ project }: ProjectMetaProps) {
     { label: "기간", value: project.period },
     { label: "팀 구성", value: project.team },
     { label: "역할", value: project.role },
-    { label: "상태", value: [project.status, project.award].filter(Boolean).join(" · ") },
+    { label: "상태", value: [project.status, project.award].filter(Boolean).join(", ") },
   ].filter((fact) => fact.value);
 
   return (

@@ -7,7 +7,7 @@ type ProjectLinksProps = {
   className?: string;
 };
 
-/** 서비스·저장소·문서 링크. 카드와 상세 상단에서 같은 모양으로 씁니다. */
+/** 서비스, 저장소, 문서 링크. 카드와 상세 상단에서 같은 모양으로 씁니다. */
 export function ProjectLinks({ links, className }: ProjectLinksProps) {
   if (!links.length) {
     return null;

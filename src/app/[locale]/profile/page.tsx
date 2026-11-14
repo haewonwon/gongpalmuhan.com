@@ -40,7 +40,7 @@ function Timeline({ items, locale }: { items: TimelineItem[]; locale: Locale }) 
               <h3 className="font-semibold text-(--color-ink)">
                 {item.title}
                 {item.detail ? (
-                  <span className="font-normal text-(--color-muted-ink)"> · {item.detail}</span>
+                  <span className="font-normal text-(--color-muted-ink)"> / {item.detail}</span>
                 ) : null}
               </h3>
               <p className="shrink-0 text-sm text-(--color-muted-ink)">{item.period}</p>
