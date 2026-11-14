@@ -32,7 +32,7 @@ export function ProjectCard({
       <div className="grid gap-4 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-start">
         <div className="min-w-0">
           <p className="text-(length:--text-caption) text-(--color-muted-ink)">
-            {project.period} · {project.team}
+            {project.period} / {project.team}
           </p>
           <Heading className="mt-1 text-xl font-semibold tracking-normal text-(--color-ink)">
             <a
@@ -43,9 +43,8 @@ export function ProjectCard({
             </a>
           </Heading>
           <p className="mt-2 max-w-2xl leading-7 text-(--color-muted-ink)">{project.summary}</p>
-          <p className="mt-3 max-w-2xl text-sm leading-7 text-(--color-ink)">
-            <span className="font-semibold">{project.role}</span>
-            <span aria-hidden> — </span>
+          <p className="mt-3 text-sm font-semibold text-(--color-ink)">{project.role}</p>
+          <p className="mt-1 max-w-2xl text-sm leading-7 text-(--color-ink)">
             {project.contribution}
           </p>
         </div>
