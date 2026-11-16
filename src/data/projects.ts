@@ -31,7 +31,7 @@ export type Project = {
   award?: string;
   /** 카드에 보여줄 본인 기여 1~2문장 */
   contribution: string;
-  /** 상세 상단의 핵심 기여 요약 */
+  /** 상세 상단에 보여줄 주요 작업 */
   highlights: string[];
   stack: string[];
   links: ProjectLink[];
@@ -42,20 +42,20 @@ export const projects: Project[] = [
   {
     slug: 'brifo',
     title: 'BRIFO',
-    summary: 'AI 사원의 분석으로 투자 결정을 연습하는 게이미피케이션 웹 서비스',
+    summary: 'AI 사원의 보고서를 읽고 게임처럼 투자 판단을 연습하는 웹 서비스',
     period: '2026.06 ~ 2026.08',
     affiliation: 'UMC INHA 10기',
-    team: '10명 (FE 3, BE 5, 디자인 1, PM 1)',
-    role: 'FE 리드, 프론트엔드 아키텍처 설계',
+    team: '10명 (FE 3, BE 5, PM 1, 디자인 1)',
+    role: '프론트엔드 리드, 아키텍처 설계',
     status: '웹 배포',
     award: '우수상 (3등)',
     contribution:
-      'Orval 생성 범위를 요청 함수, DTO 타입, Zod 스키마로 좁히고, 응답 검증과 화면 모델 변환을 queryFn에 두는 연동 규칙을 만들어 팀원들과 40개 API 경로에 적용했습니다.',
+      'API 응답을 검증하고 화면에서 쓸 모델로 바꾸는 공통 코드를 만들었습니다. 팀원들과 같은 규칙으로 40개 API 경로를 연결했습니다.',
     highlights: [
-      'OpenAPI → Orval → Zod 검증 → Mapper → TanStack Query로 이어지는 공통 API 계층 설계와 구현',
-      '사원, 결정 일기, 마이페이지 화면 구현과 API 연동',
-      '운영 중 발생한 9시간 시간대 오류의 원인 분석과 KST 응답 계약 정리',
-      'Husky와 GitHub Actions로 커밋/PR 단계 품질 검사 구성',
+      'Orval로 OpenAPI 명세에 맞는 요청 함수와 타입, Zod 스키마를 생성했습니다. 응답은 공통 코드에서 검증하고 화면 모델로 바꿔 TanStack Query 캐시에 저장했습니다.',
+      '사원 목록과 상세 화면, 결정 일기, 마이페이지를 구현하고 API를 연결했습니다.',
+      '운영 중 날짜가 9시간 어긋나는 원인을 찾아 KST 기준 응답 규칙을 정리했습니다.',
+      'Husky와 GitHub Actions로 커밋과 PR 단계에서 코드를 검사하도록 구성했습니다.',
     ],
     stack: ['React', 'TypeScript', 'TanStack Query', 'Orval', 'Zod'],
     links: [
@@ -71,16 +71,16 @@ export const projects: Project[] = [
     period: '2026.05 ~ 2026.07',
     affiliation: 'TAVE 17기',
     team: '6명 (FE 1, BE 3, 디자인 2)',
-    role: '프론트엔드 단독 담당',
-    status: 'TestFlight 배포 (현재 내려감)',
+    role: '프론트엔드 단독 구현',
+    status: 'TestFlight 배포',
     award: '우수상 (2등)',
     contribution:
-      'React Native 앱의 화면, 소셜 로그인, API 연동, 배포를 혼자 맡았고, 변경 경로에 따라 Preview Build와 EAS Update를 나눠 실행하는 미리보기 배포를 구성했습니다.',
+      'React Native 앱의 화면 구현부터 소셜 로그인, API 연동, 배포까지 혼자 맡았습니다. 변경한 파일에 따라 Preview Build와 EAS Update를 나눠 실행하도록 구성했습니다.',
     highlights: [
-      '디자인 토큰, 공통 UI, 로그인/온보딩 화면 구현',
-      '카카오/구글 로그인과 OpenAPI(Orval) 기반 API 클라이언트 연결',
-      'GitHub Actions에서 변경 경로를 검사해 Preview Build와 EAS Update를 분기',
-      '앱 복귀나 화면 재진입 시 서버 상태가 갱신되지 않던 문제 수정',
+      '디자인 토큰과 공통 UI를 만들고 로그인과 온보딩 화면을 구현했습니다.',
+      '카카오 로그인과 Google Sign-In을 연동하고 Orval로 OpenAPI 명세에 맞는 API 요청 코드를 생성했습니다.',
+      'GitHub Actions에서 변경한 파일을 확인해 Preview Build나 EAS Update를 실행하도록 했습니다.',
+      '앱에 돌아오거나 화면을 다시 열 때 서버 데이터가 갱신되지 않던 문제를 수정했습니다.',
     ],
     stack: ['React Native', 'TypeScript', 'Expo / EAS', 'TanStack Query', 'GitHub Actions'],
     links: [{ kind: 'repo', label: 'GitHub', href: 'https://github.com/unplan-tave/unplan-app' }],
@@ -88,25 +88,25 @@ export const projects: Project[] = [
   },
   {
     slug: 'dreampath-innoworks',
-    title: 'DreamPath / InnoWorks',
-    summary: '같은 구조로 만든 AI 기반 대화형 시각화 웹 서비스 2종',
+    title: 'DreamPath / InnoLAB',
+    summary: 'AI와 대화하며 결과를 시각화하는 웹 서비스 2종',
     period: '2025.12',
     affiliation: '주식회사 프랜더 (프론트엔드 인턴)',
-    team: '개발팀 3명 (FE 1)',
-    role: '프론트엔드 단독 담당',
+    team: '개발팀',
+    role: '프론트엔드 구현',
     status: '서비스 운영 중',
     contribution:
-      'Django 풀스택 구조를 Django 백엔드와 React 프론트엔드로 분리하고 영어, 일본어, 중국어, 스페인어 UI를 적용했습니다.',
+      'Django 화면을 React로 분리하고 다국어 UI를 적용했습니다. 차시별 채팅 구현을 통합하고 데이터 조회, AI 요청 구성, 트랜잭션 경계를 개선했습니다.',
     highlights: [
-      'Django 풀스택 구조에서 React 프론트엔드 분리',
-      '영어, 일본어, 중국어, 스페인어 다국어 UI 적용',
-      'AI 응답을 서비스 화면에 HTML로 렌더링',
-      'GitHub Actions 기반 배포 자동화',
+      'Django 화면을 React로 분리하고 로그인 상태와 진행도를 연결했습니다. 영어, 일본어, 중국어, 스페인어 UI를 적용했습니다.',
+      '두 서비스의 차시별 채팅 클래스와 스트리밍 함수를 각각 9개에서 1개로 통합했습니다.',
+      'DreamPath의 학생 조회 범위를 학급 단위로 좁히고 프롬프트의 현재 답변 중복을 제거했습니다.',
+      'InnoLAB의 외부 이미지 생성을 대화 저장 트랜잭션에서 분리했습니다.',
     ],
     stack: ['React', 'TypeScript', 'Django', 'GitHub Actions'],
     links: [
       { kind: 'service', label: 'DreamPath', href: 'https://multi.dreampathai.kr/en' },
-      { kind: 'service', label: 'InnoWorks', href: 'https://multi.innoworks.kr/en' },
+      { kind: 'service', label: 'InnoLAB', href: 'https://multi.innoworks.kr/en' },
     ],
     featured: true,
   },
