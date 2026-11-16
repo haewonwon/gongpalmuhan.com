@@ -46,11 +46,11 @@ function Timeline({ items, locale }: { items: TimelineItem[]; locale: Locale }) 
               <p className="shrink-0 text-sm text-(--color-muted-ink)">{item.period}</p>
             </div>
             {item.bullets?.length ? (
-              <ul className="mt-3 list-disc space-y-2 pl-5 text-sm leading-7 text-(--color-muted-ink)">
+              <div className="mt-3 space-y-2 text-sm leading-7 text-(--color-muted-ink)">
                 {item.bullets.map((bullet) => (
-                  <li key={bullet}>{bullet}</li>
+                  <p key={bullet}>{bullet}</p>
                 ))}
-              </ul>
+              </div>
             ) : null}
             {relatedProjects.length ? (
               <p className="mt-3 text-sm text-(--color-muted-ink)">
@@ -82,7 +82,7 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
     <div className="space-y-12">
       <SectionTitle
         title="Profile"
-        description={`경력, 활동, 교육과 관련 프로젝트를 정리했습니다.\n기간과 역할은 이력서와 같습니다.`}
+        description="경력과 활동, 교육 이력입니다."
       >
         <div className="flex flex-wrap gap-x-5 gap-y-2">
           <LinkButton href={profile.resume} external>
