@@ -1,0 +1,2 @@
+# Exclude bundled development skills from GitHub language statistics.
+.codex/skills/** linguist-vendored
