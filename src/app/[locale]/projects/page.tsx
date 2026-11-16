@@ -20,7 +20,7 @@ export default async function ProjectsPage({ params }: ProjectsPageProps) {
     <div>
       <SectionTitle
         title="Projects"
-        description={`팀 프로젝트와 인턴 업무에서 맡은 범위와 해결한 문제를 정리했습니다.\n각 프로젝트의 기간, 팀 구성, 역할은 이력서와 같습니다.`}
+        description="팀 프로젝트와 인턴 업무에서 맡은 일과 개발 중 해결한 문제를 담았습니다."
       />
       <div>
         {projects.map((project) => (
