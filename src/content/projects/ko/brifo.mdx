@@ -1,73 +1,53 @@
-## 문제와 목적
+## 프로젝트 소개
 
 BRIFO는 사용자가 투자 회사의 CEO가 되어 AI 사원에게 종목 분석을 맡기고, 보고서를 바탕으로 투자 방향을 결정하는 서비스입니다. 실제 매매 대신 결정과 회고를 반복하며 투자 판단을 연습하도록 만들었습니다.
 
-개발 쪽 제약은 9주라는 기간과 계속 바뀌는 API였습니다. 명세가 바뀔 때마다 타입을 손으로 맞추면 빠뜨리기 쉬웠고, 서버 DTO를 화면에서 직접 쓰면 명세를 고칠 때 화면 코드까지 손봐야 했습니다.
+개발 기간은 9주였습니다. API 명세가 자주 바뀌어 타입을 손으로 맞추거나 서버 DTO를 화면에서 직접 사용하면 수정할 범위가 커지는 상황이었습니다.
 
-## 내가 맡은 범위
+## 주요 구현
 
-프론트엔드 3명 중 리드로, 프론트엔드 구조와 API 연동 규칙을 정하고 담당 도메인 화면을 구현했습니다.
+프론트엔드 3명 중 리드를 맡아 공통 API 연동 규칙을 정하고 팀원들과 40개 API 경로에 적용했습니다. Orval 설정과 API 요청, 인증 갱신, 에러 처리를 위한 공통 코드를 처음 작성했습니다.
 
-| 영역 | 직접 맡은 범위 | 공동 작업/역할 경계 |
-|---|---|---|
-| API 계층 | `orval.config.ts`, `axiosInstance`, `executeApiRequest`, `ApiError` 최초 작성 ([#68](https://github.com/Team-BRIFO/BRIFO-front/pull/68)), 도메인별 query hook 분리 ([#65](https://github.com/Team-BRIFO/BRIFO-front/pull/65)) | 이후 팀원 1명이 설정 파일 일부를 함께 수정 |
-| 화면 | 사원 목록/상세, 결정 일기, 마이페이지 구현과 API 연동, 결정 일기 공유 이미지와 카카오 공유 | 다른 도메인 화면은 FE 팀원 2명 담당 |
-| 공통 컴포넌트 | 공통 컴포넌트 설계 초안과 검토 체크리스트, Modal, NavigationBar, BottomSheet 등 구현 | 구현이 과제 범위에 들어온 뒤 공통 구현은 팀원 2명과 나눔 |
-| 개발 환경 | Husky/lint-staged ([#22](https://github.com/Team-BRIFO/BRIFO-front/pull/22)), GitHub Actions CI ([#23](https://github.com/Team-BRIFO/BRIFO-front/pull/23)), 생성 코드 비교 검사 | |
-| 백엔드 협업 | Swagger 점검 항목과 화면 기준 누락 필드 요청, 실패 응답 문서화 요청 | 서버 수정은 백엔드 담당 |
+Orval은 요청 함수와 DTO 타입, Zod 스키마만 생성하도록 했습니다. Query hook은 도메인별로 직접 작성해 Query Key와 캐시 정책을 관리했습니다. 생성 파일 수정 금지와 hook 작성 순서는 사용 가이드로 남겼습니다.
 
-## 주요 기술 결정
+폼이 적어 도입하지 않기로 했던 Zod를 서버 응답 검증용으로 다시 제안해 도입했습니다. `queryFn` 안에서 응답을 검증하고 Mapper에서 화면 모델로 변환해 TanStack Query 캐시에 저장하도록 구성했습니다.
 
-### Zod를 응답 검증 용도로 다시 제안
+사원 목록과 상세 화면, 결정 일기, 마이페이지의 화면 구현과 API 연동을 맡았습니다. 결정 일기 공유 이미지와 카카오 공유도 구현했습니다. 공통 UI는 설계 초안과 검토 체크리스트를 만들고 팀원들과 나눠 구현했으며 저는 Modal, NavigationBar, BottomSheet 등을 맡았습니다.
 
-처음 회의에서는 입력 폼이 적다는 이유로 Zod를 쓰지 않기로 했습니다. 이후 API 연동을 준비하면서 Zod를 폼 검증이 아니라 **API 응답 검증** 용도로 다시 제안했습니다. TypeScript 타입은 컴파일할 때만 검사하므로, 실행 중 서버가 명세와 다른 데이터를 보내면 막을 수 없기 때문입니다. 팀원들이 직접 검토한 뒤 도입을 결정했습니다.
+Husky와 GitHub Actions로 커밋 전 코드 검사와 CI, 생성 코드 비교 검사를 구성했습니다. Swagger를 점검해 화면에 필요한 누락 필드와 실패 응답 문서화도 백엔드에 요청했습니다.
 
-### Orval 생성 범위를 요청 함수, 타입, 스키마로 제한
+## 문제 해결
 
-Orval은 TanStack Query hook까지 생성할 수 있지만, 생성 범위를 요청 함수, DTO 타입, Zod 스키마로 좁혔습니다. Query Key와 캐시 정책을 생성 설정이 아닌 팀 코드에서 관리하기 위해서입니다. 대신 도메인 hook은 사람이 작성해야 하므로, 작성 순서와 "생성 파일은 수정하지 않는다" 같은 규칙을 `src/hooks/api/README.md`에 정리했습니다.
+### 스키마 이름 충돌로 발생한 타입 오류 해결
 
-응답은 다음 순서로 처리합니다. Zod 검증과 Mapper를 `queryFn` 안에서 실행해, 서버 DTO가 아닌 화면 모델이 캐시에 저장됩니다.
+문제 정의(Problem): 사원 목록 API에서 Orval이 생성한 타입이 실제 응답과 달랐습니다.
 
-```text
-서버 응답
-  → Axios 공통 인스턴스 (인증, refresh 처리)
-  → Orval이 생성한 Zod 스키마로 검증
-  → Mapper로 DTO를 화면 모델로 변환
-  → TanStack Query 캐시
-  → 화면 컴포넌트
-```
+접근 과정(Process): 생성 타입과 Kotlin 응답 DTO를 추적해 중첩 클래스의 `Item` 이름이 OpenAPI 스키마에서 충돌하는 원인을 찾았습니다. 같은 구조를 쓰는 다른 목록 응답도 영향 범위에 포함해 백엔드에 전달했습니다.
 
-이 규칙을 팀원들과 함께 적용해 40개 경로의 API를 연결했습니다.
+해결(Solution): 백엔드에서 `GetAgentsResponse.Item`을 `AgentItem`으로 바꾸는 등 중첩 `Item` 13개를 고유한 이름으로 수정했습니다.
 
-## 문제 해결 사례
+결과(Result): 12개 도메인의 응답 DTO 21개에 수정이 반영됐고 같은 원인으로 발생하던 타입 불일치를 함께 해결했습니다.
 
-### 생성된 타입이 실제 응답과 다를 때
+### 배포 환경의 9시간 날짜 오차 수정
 
-Orval로 만든 타입이 실제 응답과 맞지 않는 문제가 있었습니다. 원인을 추적해 보니 백엔드 Kotlin 응답 DTO 안에 `Item`이라는 같은 이름의 중첩 클래스가 여러 개 있었고, OpenAPI 스키마에서 이름이 충돌하고 있었습니다.
+문제 정의(Problem): 배포 환경에서 출석 시각이 실제 한국 시간과 9시간 어긋나 표시됐습니다.
 
-같은 구조를 쓰는 다른 목록 응답에도 같은 문제가 있을 수 있다는 점을 함께 백엔드에 전달했습니다. 서버에서 중첩 `Item` 13개를 모두 고유한 이름으로 바꿨고, 12개 도메인의 응답 DTO 21개가 수정됐습니다. 팀원이 이전에 증상만 보고했던 문제도 이때 함께 해결됐습니다.
+접근 과정(Process): JPA Auditing이 KST Clock에 연결되지 않은 상태를 찾고 서버 시간 설정을 점검하도록 전달했습니다. AP 내역의 `createdAt` 등 날짜 응답도 확인해 KST `LocalDateTime`과 `Instant`의 처리 규칙을 구분했습니다.
 
-### 운영 중 9시간 차이가 난 날짜
+해결(Solution): 서버는 시간대 환경변수와 `@JsonFormat`을 적용했습니다. 프론트엔드는 KST 원문을 그대로 검증하고 표시하는 공통 유틸을 만들고 Orval에서 `Instant` 필드를 별도로 처리했습니다.
 
-배포된 환경에서 일부 날짜가 9시간 어긋나 표시됐습니다. 증상에서 원인을 추적해 보니 서버의 JPA Auditing이 한국 시간(KST) 기준 Clock에 연결되지 않은 상태였습니다. 영향받는 영역과 확인 명령어, 필요한 환경변수를 정리해 전달했고, 어떤 필드를 KST `LocalDateTime`으로 직렬화하고 어떤 필드는 `Instant`로 둘지 응답 규칙을 정했습니다.
+결과(Result): 날짜 오차를 수정하고 AP 내역, 용어장, 약관, 홈에 같은 날짜 규칙을 적용했습니다. 원문 시각 유지와 잘못된 오프셋 차단은 회귀 테스트로 검증하도록 했습니다.
 
-프론트엔드에서는 [#102](https://github.com/Team-BRIFO/BRIFO-front/pull/102)에서 다음을 반영했습니다.
+## 배포 결과
 
-- KST `LocalDateTime` 응답을 원문 그대로 검증하고 표시하는 유틸과 회귀 테스트
-- Orval 설정에서 `Instant` 필드를 구분하는 전처리 ([`orval.config.ts`](https://github.com/Team-BRIFO/BRIFO-front/blob/dev/orval.config.ts))
+웹으로 배포했고 팀은 UMC INHA 10기에서 우수상(3등)을 받았습니다. 담당 화면은 Mock 데이터에서 실제 API 응답을 사용하도록 바꿨습니다.
 
-서버 쪽에서는 환경변수와 `@JsonFormat` 적용으로 수정됐습니다. 함께 제안했던 `dateTimeProviderRef` 연결은 반영되지 않았습니다.
+제출 당일에는 모달, 탭, 카운트다운 상태를 필요한 범위로 옮겨 클릭 한 번에 페이지 전체가 다시 렌더링되던 문제를 줄였습니다.
 
-## 결과와 한계
+## 관련 자료
 
-- 웹으로 배포했고, 팀은 UMC INHA 10기에서 우수상(3등)을 받았습니다.
-- 담당 화면을 목 데이터에서 실제 API로 전환했고, API 연동 규칙을 팀원들과 40개 경로에 적용했습니다.
-- 제출 당일 모달, 탭, 카운트다운 상태를 필요한 범위로 옮겨 클릭 한 번에 페이지 전체가 다시 렌더링되던 문제를 줄였지만, 렌더링 횟수나 응답 시간을 전후로 측정하지는 않았습니다.
+[서비스](https://brifo.ai.kr), [GitHub 저장소](https://github.com/Team-BRIFO/BRIFO-front), [API 연동 규칙](https://github.com/Team-BRIFO/BRIFO-front/blob/dev/src/hooks/api/README.md)
 
-## 확인 자료
+[인증 갱신 코드](https://github.com/Team-BRIFO/BRIFO-front/blob/dev/src/api/client/axiosInstance.ts), [Orval 설정](https://github.com/Team-BRIFO/BRIFO-front/blob/dev/orval.config.ts), [날짜 검증 코드](https://github.com/Team-BRIFO/BRIFO-front/blob/dev/src/api/contracts/localDateTime.ts), [CI 설정](https://github.com/Team-BRIFO/BRIFO-front/blob/dev/.github/workflows/ci.yml)
 
-- 서비스: [brifo.ai.kr](https://brifo.ai.kr)
-- 저장소: [Team-BRIFO/BRIFO-front](https://github.com/Team-BRIFO/BRIFO-front)
-- API 계층 사용 규칙: [`src/hooks/api/README.md`](https://github.com/Team-BRIFO/BRIFO-front/blob/dev/src/hooks/api/README.md)
-- 인증 갱신 처리: [`src/api/client/axiosInstance.ts`](https://github.com/Team-BRIFO/BRIFO-front/blob/dev/src/api/client/axiosInstance.ts)
-- CI: [`.github/workflows/ci.yml`](https://github.com/Team-BRIFO/BRIFO-front/blob/dev/.github/workflows/ci.yml)
+[스키마 이름 수정 이력](https://github.com/Team-BRIFO/BRIFO-server/commit/bf91224059eca58bb40680e736f6b6b042c3595b), [날짜 처리 수정 이력](https://github.com/Team-BRIFO/BRIFO-front/pull/102)
