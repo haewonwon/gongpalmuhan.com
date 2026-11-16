@@ -1,59 +1,47 @@
-## 문제와 목적
+## 프로젝트 소개
 
-Unplan은 계획을 빈틈없이 채우는 대신, 그날의 컨디션과 생활 패턴에 맞춰 할 일을 조정하도록 돕는 스케줄러 앱입니다. React Native와 Expo로 만들었습니다.
+Unplan은 그날의 컨디션과 생활 패턴에 맞춰 할 일을 조정하는 스케줄러 앱입니다. React Native와 Expo로 만들었습니다.
 
-팀 6명 중 프론트엔드가 1명이었기 때문에 화면, 소셜 로그인, API 연동, 앱 빌드와 배포까지 프론트엔드 쪽 기준을 모두 직접 정해야 했습니다.
+## 주요 구현
 
-## 내가 맡은 범위
+디자인 토큰과 Typography, Tag 등 공통 UI를 만들었습니다. 로그인과 온보딩, 일정 화면도 구현했습니다.
 
-| 영역 | 직접 맡은 범위 | 공동 작업/역할 경계 |
-|---|---|---|
-| 화면 | 디자인 토큰, Typography, Tag 등 공통 UI, 로그인, 온보딩, 일정 화면 | 화면 디자인은 디자이너 2명 담당 |
-| 인증 | 카카오 로그인(카카오톡 미설치 시 카카오 계정 로그인으로 전환), Google Sign-In, 토큰을 `expo-secure-store`에 저장 | 토큰 교환/검증 API는 백엔드 담당 |
-| 상태/데이터 | Orval과 Axios로 OpenAPI 기반 요청 함수와 타입 생성, 서버 상태는 TanStack Query, 세션 같은 앱 상태는 Zustand | API 명세는 백엔드 3명 담당 |
-| 빌드/배포 | GitHub Actions와 EAS Build/EAS Update로 미리보기 배포, TestFlight 배포 | |
+카카오 로그인과 Google Sign-In을 연동하고 인증 토큰을 `expo-secure-store`에 저장했습니다. 카카오톡이 설치되어 있지 않으면 카카오 계정 로그인으로 전환하도록 처리했습니다. 백엔드가 직접 소셜 로그인과 토큰 교환을 검증할 수 있도록 별도의 웹 도구도 만들었습니다.
 
-## 주요 기술 결정
+Orval로 OpenAPI 명세에 맞는 요청 함수와 타입을 생성하고 Axios로 API를 호출하도록 구성했습니다. 서버 데이터는 직접 작성한 TanStack Query hook으로 관리하고 세션 같은 앱 상태는 Zustand에 두었습니다.
 
-### 변경 경로에 따라 미리보기 배포 방식을 나누기
+## 문제 해결
 
-네이티브 SDK가 포함된 앱의 미리보기 빌드는 약 7분이 걸렸습니다. 그런데 실제 변경은 JavaScript만 바꾸는 경우가 많았습니다.
+### 미리보기 배포 51회 중 46회를 EAS Update로 처리
 
-그래서 `develop` 브랜치에 push되면 GitHub Actions가 먼저 변경 경로를 검사하도록 했습니다. `android/`, `ios/`, `app.json`, `package.json`, `eas.json` 같은 네이티브 관련 파일이 바뀌었을 때만 Preview Build를 실행하고, 그 외에는 EAS Update로 JavaScript 번들만 미리보기 채널에 올립니다. 수동 실행할 때는 `force_native_build` 옵션으로 Preview Build를 강제할 수 있습니다.
+문제 정의(Problem): 네이티브 SDK가 포함된 앱이라 JavaScript만 바꿔도 전체 빌드를 기다려야 했습니다.
 
-성공한 미리보기 배포 51회 중 46회를 약 2분이 걸리는 EAS Update로 처리했습니다.
+접근 과정(Process): 네이티브 코드와 설정, 의존성 변경 여부를 기준으로 Preview Build가 필요한 경우와 JavaScript 번들만 배포할 수 있는 경우를 나눴습니다.
 
-- 워크플로: [`ci.yml`](https://github.com/unplan-tave/unplan-app/blob/develop/.github/workflows/ci.yml), [`release.yml`](https://github.com/unplan-tave/unplan-app/blob/develop/.github/workflows/release.yml)
+해결(Solution): GitHub Actions가 `develop`의 변경 경로를 검사해 네이티브 관련 파일이 바뀌면 EAS Build를, 그 외에는 EAS Update를 실행하도록 구성했습니다. 필요하면 수동으로 네이티브 빌드를 강제하는 옵션도 뒀습니다.
 
-### 생성 코드와 앱 정책 분리
+결과(Result): 성공한 미리보기 배포 51회 중 46회를 EAS Update로 처리했습니다. 배포 작업 평균은 iOS 빌드 약 7분, EAS Update 약 2분이었습니다.
 
-API 요청 함수와 타입은 Orval로 생성하되, 인증 처리와 화면 상태까지 생성 코드에 맡기지는 않았습니다. Axios 공통 클라이언트가 요청 설정을 맡고, 화면은 직접 작성한 hook을 통해 서버 상태를 사용합니다.
+### 앱 복귀 후 서버 데이터 갱신 문제 수정
 
-## 문제 해결 사례
+문제 정의(Problem): 컨디션과 수면 기록 화면에 다시 들어오거나 앱에 복귀해도 지난 기록이 갱신되지 않았습니다.
 
-### 앱에 돌아와도 데이터가 갱신되지 않던 문제
+접근 과정(Process): 앱 활성화 감지와 캐시 설정을 확인했습니다. React Native에는 브라우저의 포커스 이벤트가 없고 지난 기록의 `staleTime`은 `Infinity`, 전역 기본값은 5분으로 설정되어 있었습니다.
 
-앱을 나갔다 돌아오거나 화면에 다시 들어와도 서버 데이터가 갱신되지 않았습니다. 원인은 두 가지였습니다.
+해결(Solution): `AppState` 변경을 TanStack Query의 `focusManager`에 연결하고 전역 기본값과 지난 기록의 `staleTime`을 0으로 바꿨습니다. 오늘 기록은 기존대로 기록 mutation 후 캐시를 무효화해 갱신했습니다.
 
-1. React Native에는 브라우저의 창 포커스 이벤트가 없어서, TanStack Query가 앱이 다시 활성화된 것을 알지 못했습니다.
-2. 처음에는 지난 날짜 기록은 바뀌지 않는다고 보고 `staleTime`을 `Infinity`로, 전역 기본값은 5분으로 두었습니다. 그래서 다시 들어와도 요청이 나가지 않았습니다.
+결과(Result): 앱 복귀와 화면 재진입 시 지난 기록을 다시 요청하도록 바꿨습니다. 요청 수 변화는 따로 측정하지 않았습니다.
 
-React Native의 `AppState` 변경을 TanStack Query의 `focusManager`에 연결해 앱 복귀를 알리고, 지난 날짜 기록도 다른 기기에서 바뀔 수 있다고 판단해 전역 및 지난 날짜 `staleTime`을 0으로 바꿨습니다. 오늘 기록은 기존대로 기록 mutation 후 무효화로 갱신합니다. ([커밋 cf10f4c](https://github.com/unplan-tave/unplan-app/commit/cf10f4c))
+## 배포 결과
 
-이 변경으로 화면에 다시 들어올 때마다 요청이 다시 나갑니다. 요청 수 변화는 측정하지 않았습니다.
+TestFlight로 배포했고 팀은 TAVE 17기에서 우수상(2등)을 받았습니다. 현재 TestFlight 빌드는 내려가 있습니다.
 
-### 소셜 로그인 검증 환경 분리
+초기에는 Android 미리보기 빌드도 구성했고 현재는 iOS 미리보기와 TestFlight 릴리스 중심으로 전환했습니다.
 
-소셜 로그인은 앱, OAuth 제공자, 백엔드가 함께 동작해서 한쪽 코드만 보고는 실패 원인을 판단하기 어려웠습니다. 앱에서 받은 토큰이 올바른지, 백엔드 교환 과정에서 어떤 응답이 오는지를 따로 확인할 수 있도록 토큰 확인용 웹 도구를 따로 만들어 사용했습니다.
+## 관련 자료
 
-## 결과와 한계
+[GitHub 저장소](https://github.com/unplan-tave/unplan-app), [API 연동 구조](https://github.com/unplan-tave/unplan-app/blob/develop/docs/architecture/api-boundary.md), [미리보기 배포 기록](https://github.com/unplan-tave/unplan-app/actions/workflows/ci.yml?query=branch%3Adevelop)
 
-- TestFlight로 배포했고, 팀은 TAVE 17기에서 우수상(2등)을 받았습니다. 현재 TestFlight 빌드는 내려가 있습니다.
-- Preview Build와 릴리스 빌드는 iOS만 대상으로 구성했습니다. Android 빌드/배포 파이프라인은 만들지 않았습니다.
+[CI 설정](https://github.com/unplan-tave/unplan-app/blob/develop/.github/workflows/ci.yml), [릴리스 설정](https://github.com/unplan-tave/unplan-app/blob/develop/.github/workflows/release.yml), [소셜 로그인 코드](https://github.com/unplan-tave/unplan-app/blob/develop/src/domains/auth/social-login.ts), [토큰 저장 코드](https://github.com/unplan-tave/unplan-app/blob/develop/src/lib/storage/secure-storage.ts)
 
-## 확인 자료
-
-- 저장소: [unplan-tave/unplan-app](https://github.com/unplan-tave/unplan-app)
-- 개발 문서: [`docs/`](https://github.com/unplan-tave/unplan-app/tree/develop/docs)
-- 소셜 로그인: [`src/domains/auth/social-login.ts`](https://github.com/unplan-tave/unplan-app/blob/develop/src/domains/auth/social-login.ts)
-- 토큰 저장: [`src/lib/storage/secure-storage.ts`](https://github.com/unplan-tave/unplan-app/blob/develop/src/lib/storage/secure-storage.ts)
+[앱 복귀 처리](https://github.com/unplan-tave/unplan-app/blob/develop/src/app/_layout.tsx), [캐시 설정](https://github.com/unplan-tave/unplan-app/blob/develop/src/lib/api/query-client.ts), [데이터 갱신 수정 이력](https://github.com/unplan-tave/unplan-app/commit/cf10f4c), [iOS 배포 전환 이력](https://github.com/unplan-tave/unplan-app/commit/a309063)
