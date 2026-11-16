@@ -27,10 +27,10 @@ const email = 'khcw1029@daum.net';
 
 export const profile = {
   name: '김해원',
-  title: '웹 프론트엔드 개발자',
+  title: '프론트엔드 개발자',
   /** 이력서 상단 소개와 같은 문장입니다. */
   summary:
-    'React와 TypeScript로 웹 서비스를 개발합니다.\nAPI 명세가 바뀌어도 화면을 덜 고치도록 연동 규칙을 정해 팀원들과 40개 API 경로에 적용했습니다.',
+    'React와 TypeScript로 웹 서비스를 개발합니다.\nAPI 명세가 자주 바뀌는 프로젝트에서 연동 규칙을 정하고 팀원들과 40개 API 경로를 연결했습니다.',
   location: 'Incheon, Korea',
   email,
   github,
@@ -43,11 +43,11 @@ export const profile = {
   experience: [
     {
       title: '주식회사 프랜더',
-      detail: '프론트엔드 인턴 / 개발팀 3명 (FE 1명)',
+      detail: '개발팀 프론트엔드 인턴',
       period: '2025.09 ~ 2025.12',
       bullets: [
-        'DreamPath와 InnoWorks의 Django 풀스택 구조를 Django 백엔드와 React 프론트엔드로 분리하고 영어, 일본어, 중국어, 스페인어 UI를 적용했습니다.',
-        '고객사 웹 서비스는 동영상과 이미지가 빌드에 포함돼 결과물이 447MB였고 배포에 약 15분이 걸렸습니다. 미디어를 서버 디렉터리로 옮겨 Nginx alias로 제공하고, 빌드 결과물을 약 5MB로 줄였습니다. 폴더 교체 방식으로 무중단 배포를 구현했습니다.',
+        'DreamPath와 InnoLAB의 Django 풀스택 구조를 Django 백엔드와 React 프론트엔드로 분리하고 영어, 일본어, 중국어, 스페인어 UI를 적용했습니다.',
+        '고객사 웹 서비스는 빌드에 동영상과 이미지가 포함되어 결과물이 447MB였고 배포에 약 15분이 걸렸습니다. 미디어를 서버 디렉터리로 옮겨 Nginx alias로 제공하면서 빌드 결과물을 약 5MB로 줄였습니다. 폴더를 교체하는 방식으로 무중단 배포도 구현했습니다.',
       ],
       projectSlugs: ['dreampath-innoworks'],
     },
@@ -56,7 +56,7 @@ export const profile = {
       detail: '매장 근무 (아르바이트)',
       period: '2024.03 ~ 2025.06',
       bullets: [
-        '교대 때 말로 전하던 내용이 빠지는 일이 있어 메모를 남기기 시작했고, 이후 앞뒤 근무자도 메모로 인수인계했습니다.',
+        '교대할 때 말로 전하던 내용이 빠지는 일이 있어 메모를 남기기 시작했습니다. 이후 앞뒤 근무자도 메모로 인수인계했습니다.',
       ],
     },
   ] satisfies TimelineItem[],
@@ -82,7 +82,7 @@ export const profile = {
   education: [
     {
       title: '인하대학교',
-      detail: '경영학(주전공) / 소프트웨어융합공학(연계전공)',
+      detail: '경영학(주전공), 소프트웨어융합공학(연계전공)',
       period: '2021.03 ~ 2027.02 (졸업 예정)',
     },
   ] satisfies TimelineItem[],
@@ -93,7 +93,7 @@ export const profile = {
   archiving: [
     {
       label: 'Velog',
-      description: '공부 기록 및 회고',
+      description: '공부 기록과 회고',
       href: 'https://velog.io/@haewonwon/posts',
     },
   ],
