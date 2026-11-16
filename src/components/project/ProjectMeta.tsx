@@ -6,7 +6,7 @@ type ProjectMetaProps = {
   project: Project;
 };
 
-/** 프로젝트 상세 상단 요약: 제목, 목적, 기본 정보, 핵심 기여, 링크를 한 블록으로 보여줍니다. */
+/** 프로젝트 상세 상단에 소개, 기본 정보, 주요 작업과 링크를 보여줍니다. */
 export function ProjectMeta({ project }: ProjectMetaProps) {
   const facts = [
     { label: "기간", value: project.period },
@@ -40,13 +40,13 @@ export function ProjectMeta({ project }: ProjectMetaProps) {
 
       <section aria-labelledby="highlights-heading" className="mt-6">
         <h2 id="highlights-heading" className="text-sm font-semibold text-(--color-ink)">
-          핵심 기여
+          주요 작업
         </h2>
-        <ul className="mt-2 list-disc space-y-1.5 pl-5 text-sm leading-7 text-(--color-muted-ink)">
+        <div className="mt-2 space-y-2 text-sm leading-7 text-(--color-muted-ink)">
           {project.highlights.map((item) => (
-            <li key={item}>{item}</li>
+            <p key={item}>{item}</p>
           ))}
-        </ul>
+        </div>
       </section>
 
       <div className="mt-6 flex flex-wrap gap-x-2 gap-y-1.5">
